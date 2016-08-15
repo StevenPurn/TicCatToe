@@ -12,13 +12,10 @@ public class ItemPlacement : MonoBehaviour {
         turnManager = GameObject.Find("TurnManager");
     }
 
-    void Update()
-    {
-        boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
-    }
-
     public void CheckTileAvailability(Vector2 tilePosition, Vector2 spawnPosition)
     {
+        boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
+
         foreach (var tile in boardTiles)
         {
             if(tile.locationOfTile == tilePosition)

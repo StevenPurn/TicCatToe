@@ -6,6 +6,7 @@ public class GlassTileHealth : MonoBehaviour {
     private int curHealth;
     private int maxHealth = 3;
     private Vector2 tileLocation;
+    public bool occupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
     public enum GlassSprite { glassSprite1 = 0, glassSprite2, glassSprite3, glassSprite4 };
     public GlassSprite glassSprite;
@@ -14,6 +15,7 @@ public class GlassTileHealth : MonoBehaviour {
     void Start () {
         curHealth = maxHealth;
         ChangeSprite(curHealth);
+        FindObjectOfType<TurnManager>().turnEndEvent += TurnEnd;
 	}
 
     public void SetLoction(Vector2 location)
@@ -21,10 +23,27 @@ public class GlassTileHealth : MonoBehaviour {
         tileLocation = location;
     }
 
+    public void TurnEnd()
+    {
+        if (occupied)
+        {
+            AdjustHealth(-1);
+        }
+    }
+
     public void AdjustHealth(int healthChange)
     {
         curHealth += healthChange;
-        ChangeSprite(curHealth);
+        if (curHealth > 0)
+        {
+            ChangeSprite(curHealth);
+        }
+        else
+        {
+            occupied = false;
+            //Remove item on space, play animation?
+            curHealth = maxHealth;
+        }
     }
 
     void ChangeSprite(int sprite)

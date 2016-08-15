@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TurnManager : MonoBehaviour {
+
+    public delegate void TurnEndDelegate();
+    public TurnEndDelegate turnEndEvent;
+
+    List<Tile> boardTiles;
 
     //Should be static
     public Player curPlayer;
@@ -16,9 +22,10 @@ public class TurnManager : MonoBehaviour {
     {
         //call win condition checker
         //Call Event that starts:
-            //Subtract health from all active glass tiles
-            //FindObjectsOfType<GlassTileHealth>().AdjustHealth(-1);
-            //Instantiate random glass tile if less than two additional glass tiles
+        //Subtract health from all active glass tiles
+        //FindObjectsOfType<GlassTileHealth>().AdjustHealth(-1);
+        //Instantiate random glass tile if less than two additional glass tiles
+        turnEndEvent();
         ChangePlayer();
     }
 
