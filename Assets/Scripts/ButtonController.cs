@@ -11,9 +11,4 @@ public class ButtonController : MonoBehaviour {
         string sceneName = targetScene.name;
         SceneManager.LoadScene(sceneName);
     }
-
-    public void Test()
-    {
-        Debug.Log("FUCK THOMAS");
-    }
 }
