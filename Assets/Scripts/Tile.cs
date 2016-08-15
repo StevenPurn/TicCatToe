@@ -8,6 +8,7 @@ public class Tile {
     public Vector2 locationOfTile;
     public SortingLayer sortLayer;
     public Vector2 worldSpaceLocation;
+    public bool tileOccupied = false;
 
     public Tile(Vector2 tileLocation, TileType tileType, TileValue tileValue)
     {
@@ -16,4 +17,9 @@ public class Tile {
         this.locationOfTile = tileLocation;
     }
 
+    public void SetTileStatus(TileValue tileValue, bool occupied)
+    {
+        this.valueOfTile = tileValue;
+        this.tileOccupied = occupied;
+    }
 }

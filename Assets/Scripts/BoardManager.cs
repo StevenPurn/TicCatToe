@@ -35,7 +35,7 @@ public class BoardManager : MonoBehaviour {
         {
             for (int j = 0; j <= boardSize; j++)
             {
-                if(i > 0 && i < 4 && j > 0 && j < 4)
+                if(i > 0 && i < boardSize && j > 0 && j < boardSize)
                 {
                     if(i == j)
                     {

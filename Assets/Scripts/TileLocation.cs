@@ -13,7 +13,7 @@ public class TileLocation : MonoBehaviour {
         {
             return;
         }
-        if(tileLocation == new Vector2(2,3) || tileLocation == new Vector2(3,2))
+        if(tileLocation == new Vector2(2,1) || tileLocation == new Vector2(3,2))
         {
             sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front");
         }
@@ -21,7 +21,5 @@ public class TileLocation : MonoBehaviour {
         GameObject boardManager = GameObject.Find("BoardManager");
         transform.position = boardManager.GetComponent<BoardLocationDictionary>().BoardLocation[tileLocation];
         sr.sortingLayerName = boardManager.GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
-
     }
-
 }

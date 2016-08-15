@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class BoardLocationDictionary : MonoBehaviour {
     public Dictionary<Vector2, string> SortLayer = new Dictionary<Vector2, string>()
     {

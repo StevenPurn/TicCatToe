@@ -3,7 +3,8 @@ using System.Collections;
 
 public class TurnManager : MonoBehaviour {
 
-    Player curPlayer;
+    //Should be static
+    public Player curPlayer;
 
 	// Use this for initialization
 	void Start () {
@@ -14,10 +15,10 @@ public class TurnManager : MonoBehaviour {
     public void EndTurn()
     {
         //call win condition checker
-
-        //Subtract health from all active glass tiles
-        //FindObjectsOfType<GlassTileHealth>().AdjustHealth(-1);
-        //Instantiate random glass tile if less than two additional glass tiles
+        //Call Event that starts:
+            //Subtract health from all active glass tiles
+            //FindObjectsOfType<GlassTileHealth>().AdjustHealth(-1);
+            //Instantiate random glass tile if less than two additional glass tiles
         ChangePlayer();
     }
 
@@ -27,7 +28,7 @@ public class TurnManager : MonoBehaviour {
         if(curPlayer == Player.playerOne)
         {
             curPlayer = Player.playerTwo;
-        }else
+        }else if (curPlayer == Player.playerTwo)
         {
             curPlayer = Player.playerOne;
         }
