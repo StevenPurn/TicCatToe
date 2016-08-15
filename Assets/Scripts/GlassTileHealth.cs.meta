@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f97b2db11009c9d45aa48a69eef9ea20
+timeCreated: 1471216514
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - sprite1: {fileID: 21300000, guid: 03a5b8e41e9b5a2478f53c39b1f9c97b, type: 3}
+  - sprite2: {fileID: 21300000, guid: b878ccec20f26dd45adf95f468608ea0, type: 3}
+  - sprite3: {fileID: 21300000, guid: eec7e578a94aba04ebb6626afa6bad60, type: 3}
+  - sprite4: {fileID: 21300000, guid: 00106fed6932d784081eaba68efcc3e7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -13,7 +13,6 @@ public class ScoreManager : MonoBehaviour {
     public void ScoreChange(Player player, int score)
     {
         ScoreByPlayer[player] += score;
-        //Event
     }
 
     public int GetScore(Player player)
