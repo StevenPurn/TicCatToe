@@ -2,17 +2,16 @@
 using System.Collections;
 
 public class Tile {
-
-    public TileType typeOftile;
+    public TileType typeOfTile;
     public TileValue valueOfTile;
-    public Vector2 locationOfTile;
+    public TileLocation locationOfTile;
     public SortingLayer sortLayer;
     public Vector2 worldSpaceLocation;
     public bool tileOccupied = false;
 
-    public Tile(Vector2 tileLocation, TileType tileType, TileValue tileValue)
+    public Tile(TileLocation tileLocation, TileType tileType, TileValue tileValue)
     {
-        this.typeOftile = tileType;
+        this.typeOfTile = tileType;
         this.valueOfTile = tileValue;
         this.locationOfTile = tileLocation;
     }

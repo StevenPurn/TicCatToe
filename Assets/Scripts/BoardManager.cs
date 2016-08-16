@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
+    private static int BoardSize = 5;
+    public Tile[,] BoardTiles = new Tile[BoardSize,BoardSize];
+    public GameObject EmptyTileObj, StandardTileObj, GlassTileObj;
 
-    public List<Tile> BoardTiles = new List<Tile>() { };
-    private int boardSize = 4;
-    public GameObject emptyTileObj, standardTileObj, glassTileObj;
     private GameObject boardObjects;
 
-    // Use this for initialization
     void Start() {
-
         if (GameObject.Find("BoardObjects") == null)
         {
             boardObjects = (GameObject)Instantiate(Resources.Load("Prefabs/BoardObjects"));
@@ -21,63 +19,88 @@ public class BoardManager : MonoBehaviour {
             boardObjects = GameObject.Find("BoardObjects");
         }
 
-        standardTileObj = (GameObject)Resources.Load("Prefabs/StandardTile");
-        glassTileObj = (GameObject)Resources.Load("Prefabs/GlassTile");
-        emptyTileObj = (GameObject)Resources.Load("Prefabs/EmptyTile");
+        StandardTileObj = (GameObject)Resources.Load("Prefabs/StandardTile");
+        GlassTileObj = (GameObject)Resources.Load("Prefabs/GlassTile");
+        EmptyTileObj = (GameObject)Resources.Load("Prefabs/EmptyTile");
 
         CreateBoard();
     }
 
-    void CreateBoard() { 
+    void CreateBoard() {
         TileType typeOfTile = TileType.emptyTile;
 
-        for (int i = 0; i <= boardSize; i++)
+        for (int x = 0; x < BoardSize; x++)
         {
-            for (int j = 0; j <= boardSize; j++)
+            for (int y = 0; y < BoardSize; y++)
             {
-                if(i > 0 && i < boardSize && j > 0 && j < boardSize)
+                if (x > 0 && x < BoardSize - 1 && y > 0 && y < BoardSize - 1)
                 {
-                    if(i == j)
+                    if (x == y)
                     {
                         typeOfTile = TileType.glassTile;
-                    }else if(i == 1 && j == 3)
+                    }
+                    else if (x == 1 && y == 3)
                     {
                         typeOfTile = TileType.glassTile;
-                    }else if(i == 3 && j == 1)
+                    }
+                    else if(x == 3 && y == 1)
                     {
                         typeOfTile = TileType.glassTile;
-                    }else
+                    }
+                    else
                     {
                         typeOfTile = TileType.standardTile;
                     }
-                }else
+                }
+                else
                 {
                     typeOfTile = TileType.emptyTile;
                 }
 
-                AddTile(new Vector2(i, j), typeOfTile, TileValue.empty);
+                AddTile(new TileLocation(x, y), typeOfTile, TileValue.empty);
             }
         }
 	}
 
-    void AddTile(Vector2 tileLocation, TileType tileType, TileValue tileValue)
+    void AddTile(TileLocation tileLocation, TileType tileType, TileValue tileValue)
     {
         GameObject instantiatedTile = null;
 
-        BoardTiles.Add(new Tile(tileLocation, tileType, tileValue));
+        BoardTiles[tileLocation.x, tileLocation.y] = new Tile(tileLocation, tileType, tileValue);
         if (tileType == TileType.glassTile)
         {
-            instantiatedTile = (GameObject)Instantiate(glassTileObj, boardObjects.transform);
+            instantiatedTile = (GameObject)Instantiate(GlassTileObj, boardObjects.transform);
+            SetSprite(instantiatedTile, tileLocation);
+            var health = instantiatedTile.GetComponent<GlassTileHealth>();
+            health.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
         else if (tileType == TileType.emptyTile)
         {
-            instantiatedTile = (GameObject)Instantiate(emptyTileObj, boardObjects.transform);
+            instantiatedTile = (GameObject)Instantiate(EmptyTileObj, boardObjects.transform);
         }
         else if (tileType == TileType.standardTile)
         {
-            instantiatedTile = (GameObject)Instantiate(standardTileObj, boardObjects.transform);
+            instantiatedTile = (GameObject)Instantiate(StandardTileObj, boardObjects.transform);
+            SetSprite(instantiatedTile, tileLocation);
         }
 
-        instantiatedTile.GetComponent<TileLocation>().tileLocation = tileLocation;
+        SetPosition(instantiatedTile, tileLocation);
+    }
+
+    void SetSprite(GameObject tile, TileLocation tileLocation)
+    {
+        SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
+
+        if (tileLocation == new TileLocation(2, 1) || tileLocation == new TileLocation(3, 2))
+        {
+            sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front");
+        }
+        sr.sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
+    }
+
+    void SetPosition(GameObject tile, TileLocation tileLocation)
+    {
+        tile.transform.position = GetComponent<BoardLocationDictionary>().BoardLocation[tileLocation];
+        tile.GetComponent<TileBehaviour>().TileLocation = tileLocation;
     }
 }

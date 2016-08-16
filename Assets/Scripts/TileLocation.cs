@@ -1,25 +1,31 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿[System.Serializable]
+public struct TileLocation
+{
+    public int x, y;
 
-public class TileLocation : MonoBehaviour {
-
-    public Vector2 tileLocation;
-
-    void Start()
+    public TileLocation(int x, int y)
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        this.x = x;
+        this.y = y;
+    }
 
-        if(GetComponent<SpriteRenderer>() == null)
-        {
-            return;
-        }
-        if(tileLocation == new Vector2(2,1) || tileLocation == new Vector2(3,2))
-        {
-            sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front");
-        }
+    public override int GetHashCode()
+    {
+        return this.x * 100 + this.y;
+    }
 
-        GameObject boardManager = GameObject.Find("BoardManager");
-        transform.position = boardManager.GetComponent<BoardLocationDictionary>().BoardLocation[tileLocation];
-        sr.sortingLayerName = boardManager.GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public static bool operator ==(TileLocation a, TileLocation b)
+    {
+        return a.x == b.x && a.y == b.y;
+    }
+
+    public static bool operator !=(TileLocation a, TileLocation b)
+    {
+        return !(a == b);
     }
 }

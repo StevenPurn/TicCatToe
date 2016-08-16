@@ -2,21 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TurnManager : MonoBehaviour {
+public class TurnManager : MonoBehaviour
+{
 
     public delegate void TurnEndDelegate();
     public TurnEndDelegate turnEndEvent;
 
-    List<Tile> boardTiles;
-
     //Should be static
     public Player curPlayer;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         //Set current player to player one (cheese)
         curPlayer = Player.playerOne;
-	}
+    }
 
     public void EndTurn()
     {
@@ -31,13 +31,7 @@ public class TurnManager : MonoBehaviour {
 
     void ChangePlayer()
     {
-        //Switch from current player to next player's turn
-        if(curPlayer == Player.playerOne)
-        {
-            curPlayer = Player.playerTwo;
-        }else if (curPlayer == Player.playerTwo)
-        {
-            curPlayer = Player.playerOne;
-        }
+        // Switch from current player to next player's turn
+        curPlayer = curPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
     }
 }

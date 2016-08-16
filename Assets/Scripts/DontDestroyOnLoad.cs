@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DontDestroyOnLoad : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class DontDestroyOnLoad : MonoBehaviour
+{
+    void Start()
+    {
         DontDestroyOnLoad(this.gameObject);
-	}
+    }
 }
