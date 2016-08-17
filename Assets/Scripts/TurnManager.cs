@@ -8,6 +8,9 @@ public class TurnManager : MonoBehaviour
     public delegate void TurnEndDelegate();
     public TurnEndDelegate turnEndEvent;
 
+    public delegate void StartTurnDelegate();
+    public StartTurnDelegate startTurnEvent;
+
     //Should be static
     public Player curPlayer;
 
@@ -27,6 +30,12 @@ public class TurnManager : MonoBehaviour
         //Instantiate random glass tile if less than two additional glass tiles
         turnEndEvent();
         ChangePlayer();
+        StartTurn();
+    }
+
+    public void StartTurn()
+    {
+        startTurnEvent();
     }
 
     void ChangePlayer()

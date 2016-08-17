@@ -32,32 +32,15 @@ public class BoardLocationDictionary : MonoBehaviour {
         { new TileLocation(4, 4), "Fifth_Row" }
     };
 
-    public Dictionary<TileLocation, Vector2> BoardLocation = new Dictionary<TileLocation, Vector2>()
+    public Dictionary<int, TileLocation> RandomSpawnPoints = new Dictionary< int, TileLocation>()
     {
-        {new TileLocation(0,0), new Vector2(-3.48f, 0) },
-        {new TileLocation(0,1), new Vector2(-2.61f, 0.6f) },
-        {new TileLocation(0,2), new Vector2(-1.74f, 1.2f) },
-        {new TileLocation(0,3), new Vector2(-0.87f, 1.2f) },
-        {new TileLocation(0,4), new Vector2(0, 2.4f) },
-        {new TileLocation(1,0), new Vector2(-2.61f, -0.6f) },
-        {new TileLocation(1,1), new Vector2(-1.74f, 0) },
-        {new TileLocation(1,2), new Vector2(-0.87f, 0.6f) },
-        {new TileLocation(1,3), new Vector2(0, 1.2f) },
-        {new TileLocation(1,4), new Vector2(0.87f, 1.2f) },
-        {new TileLocation(2,0), new Vector2(-1.74f, -1.2f) },
-        {new TileLocation(2,1), new Vector2(-0.87f, -0.6f) },
-        {new TileLocation(2,2), new Vector2(0, 0) },
-        {new TileLocation(2,3), new Vector2(0.87f, 0.6f) },
-        {new TileLocation(2,4), new Vector2(1.74f, 1.2f) },
-        {new TileLocation(3,0), new Vector2(-0.87f, -1.8f) },
-        {new TileLocation(3,1), new Vector2(0, -1.2f) },
-        {new TileLocation(3,2), new Vector2(0.87f, -0.6f) },
-        {new TileLocation(3,3), new Vector2(1.74f, 0) },
-        {new TileLocation(3,4), new Vector2(2.61f, 0.6f) },
-        {new TileLocation(4,0), new Vector2(0, -2.4f) },
-        {new TileLocation(4,1), new Vector2(0.87f, -1.8f) },
-        {new TileLocation(4,2), new Vector2(1.74f, -1.2f) },
-        {new TileLocation(4,3), new Vector2(2.61f, -0.6f) },
-        {new TileLocation(4,4), new Vector2(3.48f, 0) }
+        { 1, new TileLocation(0, 1) },
+        { 2, new TileLocation(0, 3) },
+        { 3, new TileLocation(1, 0) },
+        { 4, new TileLocation(1, 4) },
+        { 5, new TileLocation(3, 0) },
+        { 6, new TileLocation(3, 4) },
+        { 7, new TileLocation(4, 1) },
+        { 8, new TileLocation(4, 3) }
     };
 }

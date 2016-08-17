@@ -6,9 +6,13 @@ public class ItemPlacement : MonoBehaviour {
     Tile[,] boardTiles;
     GameObject turnManager;
 
+    private GameObject catPrefab, cheesePrefab;
+
     void Start()
     {
         turnManager = GameObject.Find("TurnManager");
+        catPrefab = (GameObject)Resources.Load("Prefabs/Cat");
+        cheesePrefab = (GameObject)Resources.Load("Prefabs/Cheese");
     }
 
     public void PlaceItemIfAvailable(TileLocation tilePosition, Vector2 spawnPosition)
@@ -28,12 +32,14 @@ public class ItemPlacement : MonoBehaviour {
 
         if (turnManager.GetComponent<TurnManager>().curPlayer == Player.playerOne)
         {
-            Instantiate(Resources.Load("Prefabs/Cheese"), new Vector3(spawnPosition.x, spawnPosition.y), Quaternion.identity);
+            GameObject instantiatedItem = (GameObject)Instantiate(cheesePrefab, spawnPosition, Quaternion.identity);
+            instantiatedItem.GetComponent<TileBehaviour>().TileLocation = tilePosition;
             tValue = TileValue.cheese;
         }
         else
         {
-            Instantiate(Resources.Load("Prefabs/Cat"), new Vector3(spawnPosition.x, spawnPosition.y), Quaternion.identity);
+            GameObject instantiatedItem = (GameObject)Instantiate(catPrefab, spawnPosition, Quaternion.identity);
+            instantiatedItem.GetComponent<TileBehaviour>().TileLocation = tilePosition;
             tValue = TileValue.cat;
         }
 
@@ -42,6 +48,7 @@ public class ItemPlacement : MonoBehaviour {
         tile.tileOccupied = true;
         tile.valueOfTile = tValue;
 
+        //Check for wins before ending turn
         turnManager.GetComponent<TurnManager>().EndTurn();
     }
 }

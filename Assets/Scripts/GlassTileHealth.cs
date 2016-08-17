@@ -33,9 +33,11 @@ public class GlassTileHealth : MonoBehaviour
 
         if (curHealth <= 0)
         {
-            // Get rid of the item on top of me?
-            // Remove item on space, play animation?
-            curHealth = MAX_HEALTH;
+            FindObjectOfType<TurnManager>().turnEndEvent -= TurnEnd;
+            TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
+            GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
+            GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
+            //if not random spawn tile add back a new glass tile
         }
 
         ChangeSprite(curHealth);
