@@ -26,6 +26,17 @@ public class BoardManager : MonoBehaviour {
         CreateBoard();
         FindObjectOfType<SpawnRandomTiles>().AddTileEvent += AddTile;
         FindObjectOfType<SpawnRandomTiles>().RemoveTileEvent += RemoveTile;
+        FindObjectOfType<WinChecking>().SendWinEvent += HandleWins;
+    }
+
+    void HandleWins(HashSet<Tile> winningTiles)
+    {
+        foreach (Tile tile in winningTiles)
+        {
+            tile.valueOfTile = TileValue.empty;
+            tile.tileOccupied = false;
+            GetComponent<ClearItemFromTile>().RemoveItemFromTile(tile.locationOfTile);
+        }
     }
 
     void CreateBoard() {

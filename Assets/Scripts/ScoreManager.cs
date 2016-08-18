@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class ScoreManager : MonoBehaviour {
 
+    public void Start()
+    {
+        FindObjectOfType<WinChecking>().SendWinEvent += UpdateScore;
+    }
+
+    void UpdateScore(HashSet<Tile> winningTile)
+    {
+
+    }
+
     public Dictionary<Player, int> ScoreByPlayer = new Dictionary<Player, int>()
     {
         { Player.playerOne, 0 },

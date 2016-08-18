@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class TurnManager : MonoBehaviour
 {
+    public delegate void WinCheckDelegate();
+    public WinCheckDelegate WinCheckEvent;
 
     public delegate void TurnEndDelegate();
     public TurnEndDelegate turnEndEvent;
@@ -23,11 +25,7 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-        //call win condition checker
-        //Call Event that starts:
-        //Subtract health from all active glass tiles
-        //FindObjectsOfType<GlassTileHealth>().AdjustHealth(-1);
-        //Instantiate random glass tile if less than two additional glass tiles
+        WinCheckEvent();
         turnEndEvent();
         ChangePlayer();
         StartTurn();

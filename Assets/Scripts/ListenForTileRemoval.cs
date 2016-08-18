@@ -15,7 +15,6 @@ public class ListenForTileRemoval : MonoBehaviour {
     {
         if (tileLocation == GetComponent<TileBehaviour>().TileLocation)
         {
-            Debug.Log("(" + tileLocation.x + ", " + tileLocation.y + ") == (" + GetComponent<TileBehaviour>().TileLocation.x + ", " + GetComponent<TileBehaviour>().TileLocation.y + ")");
             if (!GameObject.Find("BoardManager").GetComponent<BoardLocationDictionary>().RandomSpawnPoints.ContainsValue(tileLocation))
             {
                 ReplaceTileEvent(tileLocation, TileType.glassTile, TileValue.empty);

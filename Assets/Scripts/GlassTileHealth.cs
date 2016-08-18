@@ -5,7 +5,7 @@ using System;
 public class GlassTileHealth : MonoBehaviour
 {
     private float curHealth;
-    private const float MAX_HEALTH = 3;
+    private const float MAX_HEALTH = 2.5f;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
     public enum GlassSprite { glassSprite1 = 0, glassSprite2, glassSprite3, glassSprite4 };
@@ -51,15 +51,15 @@ public class GlassTileHealth : MonoBehaviour
         }
         SpriteRenderer rend = GetComponent<SpriteRenderer>();
 
-        if ((int)sprite == (int)GlassSprite.glassSprite1)
+        if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite1)
         {
             rend.sprite = sprite1;
         }
-        else if ((int)sprite == (int)GlassSprite.glassSprite2)
+        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite2)
         {
             rend.sprite = sprite2;
         }
-        else if ((int)sprite == (int)GlassSprite.glassSprite3)
+        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite3)
         {
             rend.sprite = sprite3;
         }
