@@ -23,15 +23,9 @@ public class BoardManager : MonoBehaviour {
         GlassTileObj = (GameObject)Resources.Load("Prefabs/GlassTile");
         EmptyTileObj = (GameObject)Resources.Load("Prefabs/EmptyTile");
 
+        CreateBoard();
         FindObjectOfType<SpawnRandomTiles>().AddTileEvent += AddTile;
         FindObjectOfType<SpawnRandomTiles>().RemoveTileEvent += RemoveTile;
-
-        CreateBoard();
-    }
-
-    void LateUpdate()
-    {
-        FindObjectOfType<ListenForTileRemoval>().ReplaceTileEvent += AddTile;
     }
 
     void CreateBoard() {
@@ -93,6 +87,12 @@ public class BoardManager : MonoBehaviour {
         }
 
         SetPosition(instantiatedTile, tileLocation);
+
+        var tileRemoval =  instantiatedTile.GetComponent<ListenForTileRemoval>();
+
+        if (tileRemoval != null) {
+            tileRemoval.ReplaceTileEvent += AddTile;
+        }
     }
 
     void SetSprite(GameObject tile, TileLocation tileLocation)

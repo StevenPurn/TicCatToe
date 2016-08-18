@@ -45,6 +45,10 @@ public class GlassTileHealth : MonoBehaviour
 
     void ChangeSprite(float sprite)
     {
+        if(GetComponent<SpriteRenderer>() == null)
+        {
+            return;
+        }
         SpriteRenderer rend = GetComponent<SpriteRenderer>();
 
         if ((int)sprite == (int)GlassSprite.glassSprite1)
