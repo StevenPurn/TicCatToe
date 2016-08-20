@@ -4,15 +4,15 @@ using System.Collections;
 [RequireComponent(typeof(TileBehaviour))]
 public class ListenForItemRemoval : MonoBehaviour {
 
-	void Start () {
-        FindObjectOfType<ClearItemFromTile>().removeTileEvent += RemoveItem;
+	void Awake() {
+        FindObjectOfType<ClearItemFromTile>().removeItemEvent += RemoveItem;
     }
 
     void RemoveItem(TileLocation tileLocation)
     {
         if(tileLocation == GetComponent<TileBehaviour>().TileLocation)
         {
-            FindObjectOfType<ClearItemFromTile>().removeTileEvent -= RemoveItem;
+            FindObjectOfType<ClearItemFromTile>().removeItemEvent -= RemoveItem;
             Destroy(this.gameObject);
         }
     }

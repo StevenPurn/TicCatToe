@@ -50,7 +50,6 @@ public class ItemPlacement : MonoBehaviour {
         tile.tileOccupied = true;
         tile.valueOfTile = tValue;
 
-        //Check for wins before ending turn
         turnManager.GetComponent<TurnManager>().EndTurn();
     }
 }

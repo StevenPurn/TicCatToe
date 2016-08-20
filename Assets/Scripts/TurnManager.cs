@@ -13,6 +13,9 @@ public class TurnManager : MonoBehaviour
     public delegate void StartTurnDelegate();
     public StartTurnDelegate startTurnEvent;
 
+    public delegate void ChangePlayerDelegate();
+    public ChangePlayerDelegate changePlayerEvent;
+
     //Should be static
     public Player curPlayer;
 
@@ -40,5 +43,6 @@ public class TurnManager : MonoBehaviour
     {
         // Switch from current player to next player's turn
         curPlayer = curPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
+        changePlayerEvent();
     }
 }
