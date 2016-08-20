@@ -84,7 +84,7 @@ public class BoardManager : MonoBehaviour {
         {
             instantiatedTile = (GameObject)Instantiate(GlassTileObj, boardObjects.transform);
             SetSprite(instantiatedTile, tileLocation);
-            var health = instantiatedTile.GetComponent<GlassTileHealth>();
+            var health = instantiatedTile.GetComponentInChildren<GlassTileHealth>();
             health.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
         else if (tileType == TileType.emptyTile)
@@ -99,7 +99,7 @@ public class BoardManager : MonoBehaviour {
 
         SetPosition(instantiatedTile, tileLocation);
 
-        var tileRemoval =  instantiatedTile.GetComponent<ListenForTileRemoval>();
+        var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
 
         if (tileRemoval != null) {
             tileRemoval.ReplaceTileEvent += AddTile;
@@ -108,11 +108,11 @@ public class BoardManager : MonoBehaviour {
 
     void SetSprite(GameObject tile, TileLocation tileLocation)
     {
-        SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = tile.GetComponentInChildren<SpriteRenderer>();
 
         if (tileLocation == new TileLocation(2, 1) || tileLocation == new TileLocation(3, 2))
         {
-            sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front");
+            sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front_v2");
         }
         sr.sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
     }
@@ -122,7 +122,7 @@ public class BoardManager : MonoBehaviour {
         float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.5f;    //Magic numbers depend
         float tileY = (tileLocation.y - tileLocation.x) * 0.95f;                //on scale of sprites
         tile.transform.position = new Vector2(tileX, tileY);
-        tile.GetComponent<TileBehaviour>().TileLocation = tileLocation;
+        tile.GetComponentInChildren<TileBehaviour>().TileLocation = tileLocation;
     }
 
     void RemoveTile(TileLocation tileLocation)
