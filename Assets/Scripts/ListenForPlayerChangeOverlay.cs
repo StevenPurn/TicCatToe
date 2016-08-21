@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ListenForPlayerChange : MonoBehaviour {
+public class ListenForPlayerChangeOverlay : MonoBehaviour {
 
     private Image playerImage;
     public float alphaValue;
