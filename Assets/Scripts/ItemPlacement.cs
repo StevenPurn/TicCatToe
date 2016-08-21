@@ -40,8 +40,8 @@ public class ItemPlacement : MonoBehaviour {
         else
         {
             GameObject instantiatedItem = (GameObject)Instantiate(catPrefab, spawnPosition, Quaternion.identity);
-            instantiatedItem.GetComponent<TileBehaviour>().TileLocation = tilePosition;
-            instantiatedItem.GetComponent<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tilePosition];
+            instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tilePosition;
+            instantiatedItem.GetComponentInChildren<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tilePosition];
             tValue = TileValue.cat;
         }
 
