@@ -33,8 +33,8 @@ public class ItemPlacement : MonoBehaviour {
         if (turnManager.GetComponent<TurnManager>().curPlayer == Player.playerOne)
         {
             GameObject instantiatedItem = (GameObject)Instantiate(cheesePrefab, spawnPosition, Quaternion.identity);
-            instantiatedItem.GetComponent<TileBehaviour>().TileLocation = tilePosition;
-            instantiatedItem.GetComponent<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tilePosition];
+            instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tilePosition;
+            instantiatedItem.GetComponentInChildren<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tilePosition];
             tValue = TileValue.cheese;
         }
         else
