@@ -19,7 +19,10 @@ public class ListenForPlayerChangeSlide : MonoBehaviour
     public void PlayAnimation()
     {
         anim[animName].speed = animSpeed;
-        anim[animName].time = anim[animName].length;
+        if (animSpeed < 0)
+        {
+            anim[animName].time = anim[animName].length;
+        }
         anim.Play(animName);
         animSpeed = -animSpeed;
     }
