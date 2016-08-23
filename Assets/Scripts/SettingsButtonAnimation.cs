@@ -5,6 +5,7 @@ public class SettingsButtonAnimation : MonoBehaviour {
 
     public Animation anim;
     private int animSpeed;
+	public string animName;
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animation>();
@@ -18,9 +19,12 @@ public class SettingsButtonAnimation : MonoBehaviour {
 
     public void PlayAnimation()
     {
-        Debug.Log("Animation Called");
-        anim["SettingsButton"].speed = animSpeed;
-        anim.Play();
-        animSpeed *= -1;
+		anim[animName].speed = animSpeed;
+		if (animSpeed < 0)
+		{
+			anim[animName].time = anim[animName].length;
+		}
+		anim.Play(animName);
+		animSpeed = -animSpeed;
     }
 }
