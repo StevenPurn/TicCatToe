@@ -80,7 +80,7 @@ public class WinChecking : MonoBehaviour
                 }
                 else
                 {
-                    if (results.Count < 2)
+                    if (results.Count <= 2)
                     {
                         results.Clear();
                         results.Add(curTile);

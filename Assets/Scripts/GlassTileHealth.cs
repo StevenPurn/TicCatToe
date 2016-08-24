@@ -38,15 +38,17 @@ public class GlassTileHealth : MonoBehaviour
             GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
             GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
             //if not random spawn tile add back a new glass tile
+        }else
+        {
+            ChangeSprite(curHealth);
         }
-
-        ChangeSprite(curHealth);
     }
 
     void ChangeSprite(float sprite)
     {
         if(GetComponent<SpriteRenderer>() == null)
         {
+            Debug.Log("Returned null sr");
             return;
         }
         SpriteRenderer rend = GetComponent<SpriteRenderer>();
