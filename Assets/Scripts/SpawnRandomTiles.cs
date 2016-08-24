@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 
 public class SpawnRandomTiles : MonoBehaviour {
@@ -34,7 +35,7 @@ public class SpawnRandomTiles : MonoBehaviour {
         boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
         TileLocation tileLoc = GetComponent<BoardLocationDictionary>().RandomSpawnPoints[randomKey];
 
-        if (boardTiles[tileLoc.x, tileLoc.y].tileOccupied == true)
+        if (boardTiles[tileLoc.x, tileLoc.y].typeOfTile != TileType.emptyTile)
         {
             var prevRand = randomKey;
             do
