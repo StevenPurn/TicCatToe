@@ -17,7 +17,7 @@ public class ListenForItemRemoval : MonoBehaviour {
             FindObjectOfType<ClearItemFromTile>().removeItemEvent -= RemoveItem;
             Animator anim = GetComponent<Animator>();
             anim.Play(animName);
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
         }
     }
 }
