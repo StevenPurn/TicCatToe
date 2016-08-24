@@ -48,7 +48,6 @@ public class GlassTileHealth : MonoBehaviour
     {
         if(GetComponent<SpriteRenderer>() == null)
         {
-            Debug.Log("Returned null sr");
             return;
         }
         SpriteRenderer rend = GetComponent<SpriteRenderer>();
