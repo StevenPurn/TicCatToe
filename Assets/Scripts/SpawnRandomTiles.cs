@@ -13,7 +13,7 @@ public class SpawnRandomTiles : MonoBehaviour {
 
     void Start()
     {
-        FindObjectOfType<TurnManager>().startTurnEvent += CheckForRandomTiles;
+        FindObjectOfType<BoardManager>().startTurnEvent += CheckForRandomTiles;
     }
 
     public void ReduceRandomTileCount(TileLocation tileLoc)

@@ -39,8 +39,9 @@ public class WinChecking : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<TurnManager>().WinCheckEvent += SendWins;
-        BoardTiles = GetComponent<BoardManager>().BoardTiles;
+        var boardManager = FindObjectOfType<BoardManager>();
+        boardManager.WinCheckEvent += SendWins;
+        BoardTiles = boardManager.BoardTiles;
     }
 
     public void SendWins()

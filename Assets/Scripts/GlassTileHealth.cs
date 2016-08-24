@@ -16,7 +16,7 @@ public class GlassTileHealth : MonoBehaviour
     {
         curHealth = MAX_HEALTH;
         ChangeSprite(curHealth);
-        FindObjectOfType<TurnManager>().turnEndEvent += TurnEnd;
+        FindObjectOfType<BoardManager>().turnEndEvent += TurnEnd;
     }
 
     public void TurnEnd()
@@ -33,7 +33,7 @@ public class GlassTileHealth : MonoBehaviour
 
         if (curHealth <= 0)
         {
-            FindObjectOfType<TurnManager>().turnEndEvent -= TurnEnd;
+            FindObjectOfType<BoardManager>().turnEndEvent -= TurnEnd;
             TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
             GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
             GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);

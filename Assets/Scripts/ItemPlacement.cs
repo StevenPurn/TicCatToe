@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class ItemPlacement : MonoBehaviour {
     Tile[,] boardTiles;
-    GameObject turnManager;
+    BoardManager boardManager;
 
     private GameObject catPrefab, cheesePrefab;
 
     void Start()
     {
-        turnManager = GameObject.Find("TurnManager");
+        boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         catPrefab = (GameObject)Resources.Load("Prefabs/Cat");
         cheesePrefab = (GameObject)Resources.Load("Prefabs/Cheese");
     }
@@ -30,7 +30,7 @@ public class ItemPlacement : MonoBehaviour {
     {
         TileValue tValue;
 
-        if (turnManager.GetComponent<TurnManager>().curPlayer == Player.playerOne)
+        if (boardManager.curPlayer == Player.playerOne)
         {
             GameObject instantiatedItem = (GameObject)Instantiate(cheesePrefab, spawnPosition, Quaternion.identity);
             instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tilePosition;
@@ -50,6 +50,6 @@ public class ItemPlacement : MonoBehaviour {
         tile.tileOccupied = true;
         tile.valueOfTile = tValue;
 
-        turnManager.GetComponent<TurnManager>().EndTurn();
+        boardManager.EndTurn();
     }
 }

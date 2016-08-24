@@ -13,7 +13,7 @@ public class ListenForPlayerChangeSlide : MonoBehaviour
     {
         anim = GetComponent<Animation>();
         animSpeed = 1;
-        FindObjectOfType<TurnManager>().changePlayerEvent += PlayAnimation;
+        FindObjectOfType<BoardManager>().changePlayerEvent += PlayAnimation;
     }
 
     public void PlayAnimation()

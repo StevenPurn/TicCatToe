@@ -6,6 +6,19 @@ public class BoardManager : MonoBehaviour {
     private static int BoardSize = 5;
     public Tile[,] BoardTiles = new Tile[BoardSize,BoardSize];
     public GameObject EmptyTileObj, StandardTileObj, GlassTileObj;
+    public Player curPlayer { get; private set; }
+
+    public delegate void WinCheckDelegate();
+    public WinCheckDelegate WinCheckEvent;
+
+    public delegate void TurnEndDelegate();
+    public TurnEndDelegate turnEndEvent;
+
+    public delegate void StartTurnDelegate();
+    public StartTurnDelegate startTurnEvent;
+
+    public delegate void ChangePlayerDelegate();
+    public ChangePlayerDelegate changePlayerEvent;
 
     private GameObject boardObjects;
 
@@ -27,6 +40,9 @@ public class BoardManager : MonoBehaviour {
         FindObjectOfType<SpawnRandomTiles>().AddTileEvent += AddTile;
         FindObjectOfType<SpawnRandomTiles>().RemoveTileEvent += RemoveTile;
         FindObjectOfType<WinChecking>().SendWinEvent += HandleWins;
+
+        //Set current player to player one (cheese)
+        curPlayer = Player.playerOne;
     }
 
     void HandleWins(HashSet<Tile> winningTiles)
@@ -130,5 +146,20 @@ public class BoardManager : MonoBehaviour {
         Tile tile = BoardTiles[tileLocation.x, tileLocation.y];
         tile.typeOfTile = TileType.emptyTile;
         tile.valueOfTile = TileValue.empty;
+    }
+
+    void ChangePlayer()
+    {
+        // Switch from current player to next player's turn
+        curPlayer = curPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
+        changePlayerEvent();
+    }
+
+    public void EndTurn()
+    {
+        WinCheckEvent();
+        turnEndEvent();
+        ChangePlayer();
+        startTurnEvent();
     }
 }

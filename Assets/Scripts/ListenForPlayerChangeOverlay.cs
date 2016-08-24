@@ -10,7 +10,7 @@ public class ListenForPlayerChangeOverlay : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         playerImage = GetComponent<Image>();
-        FindObjectOfType<TurnManager>().changePlayerEvent += ChangePlayer;
+        FindObjectOfType<BoardManager>().changePlayerEvent += ChangePlayer;
 	}
 	
 	public void ChangePlayer() {
