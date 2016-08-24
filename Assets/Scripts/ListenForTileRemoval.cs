@@ -33,7 +33,7 @@ public class ListenForTileRemoval : MonoBehaviour {
                 }
             }
             FindObjectOfType<SpawnRandomTiles>().RemoveTileEvent -= RemoveTile;
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
         }
     }
 }
