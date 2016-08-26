@@ -10,6 +10,6 @@ public class SetParticleRenderLayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        GetComponent<ParticleSystemRenderer>().sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
+    }
 }
