@@ -15,9 +15,15 @@ public class ListenForItemRemoval : MonoBehaviour {
         if(tileLocation == GetComponent<TileBehaviour>().TileLocation)
         {
             FindObjectOfType<ClearItemFromTile>().removeItemEvent -= RemoveItem;
-            Animator anim = GetComponent<Animator>();
-            anim.Play(animName);
-            Destroy(this.transform.parent.gameObject);
+            StartCoroutine(WaitForAnimation());
         }
+    }
+
+    IEnumerator WaitForAnimation()
+    {
+        Animator anim = GetComponent<Animator>();
+        anim.Play(animName);
+        yield return new WaitForSeconds (anim.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(transform.parent.gameObject);
     }
 }

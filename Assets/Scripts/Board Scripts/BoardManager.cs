@@ -124,13 +124,16 @@ public class BoardManager : MonoBehaviour {
 
     void SetSprite(GameObject tile, TileLocation tileLocation)
     {
-        SpriteRenderer sr = tile.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer[] sr = tile.GetComponentsInChildren<SpriteRenderer>();
 
         if (tileLocation == new TileLocation(2, 1) || tileLocation == new TileLocation(3, 2))
         {
-            sr.sprite = Resources.Load<Sprite>("Sprites/Tile_front_v2");
+            sr[0].sprite = Resources.Load<Sprite>("Sprites/Tile_front_v2");
         }
-        sr.sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
+        foreach (var i in sr)
+        {
+            i.sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
+        }
     }
 
     void SetPosition(GameObject tile, TileLocation tileLocation)

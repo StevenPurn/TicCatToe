@@ -6,6 +6,7 @@ public class GlassTileHealth : MonoBehaviour
 {
     private float curHealth;
     private const float MAX_HEALTH = 2.5f;
+    public string animName;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
     public enum GlassSprite { glassSprite1 = 0, glassSprite2, glassSprite3, glassSprite4 };
@@ -34,10 +35,7 @@ public class GlassTileHealth : MonoBehaviour
         if (curHealth <= 0)
         {
             FindObjectOfType<BoardManager>().turnEndEvent -= TurnEnd;
-            TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
-            GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
-            GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
-            //if not random spawn tile add back a new glass tile
+            StartCoroutine(WaitForAnimation());
         }else
         {
             ChangeSprite(curHealth);
@@ -68,5 +66,15 @@ public class GlassTileHealth : MonoBehaviour
         {
             rend.sprite = sprite4;
         }
+    }
+
+    IEnumerator WaitForAnimation()
+    {
+        TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
+        GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
+        Animator anim = GetComponent<Animator>();
+        anim.Play(animName);
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
     }
 }
