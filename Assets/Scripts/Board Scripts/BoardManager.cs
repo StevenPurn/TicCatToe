@@ -51,7 +51,7 @@ public class BoardManager : MonoBehaviour {
         {
             tile.valueOfTile = TileValue.empty;
             tile.tileOccupied = false;
-            GetComponent<ClearItemFromTile>().RemoveItemFromTile(tile.locationOfTile);
+            GetComponent<ClearItemFromTile>().RemoveItemFromTileWin(tile.locationOfTile);
         }
     }
 
