@@ -73,6 +73,7 @@ public class GlassTileHealth : MonoBehaviour
         TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
         GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTile(tileLocation);
         Animator anim = GetComponent<Animator>();
+        anim.enabled = true;
         anim.Play(animName);
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
