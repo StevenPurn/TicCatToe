@@ -5,17 +5,29 @@ public class ClearItemFromTile : MonoBehaviour {
 
     Tile[,] boardTiles;
 
-    public delegate void RemoveItemFromTileDelegate(TileLocation tileLocation);
-    public RemoveItemFromTileDelegate removeItemEvent;
+    public delegate void RemoveItemFromTileWinDelegate(TileLocation tileLocation);
+    public RemoveItemFromTileWinDelegate removeItemWinEvent;
 
-    public void RemoveItemFromTile(TileLocation tilePosition)
+    public delegate void RemoveItemFromTileLoseDelegate(TileLocation tileLocation);
+    public RemoveItemFromTileLoseDelegate removeItemLoseEvent;
+
+    public void RemoveItemFromTileWin(TileLocation tilePosition)
     {
         boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
 
         Tile tile = boardTiles[tilePosition.x, tilePosition.y];
         tile.tileOccupied = false;
         tile.valueOfTile = TileValue.empty;
-        removeItemEvent(tilePosition);
+        removeItemWinEvent(tilePosition);
     }
 
+    public void RemoveItemFromTileLose(TileLocation tilePosition)
+    {
+        boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
+
+        Tile tile = boardTiles[tilePosition.x, tilePosition.y];
+        tile.tileOccupied = false;
+        tile.valueOfTile = TileValue.empty;
+        removeItemLoseEvent(tilePosition);
+    }
 }
