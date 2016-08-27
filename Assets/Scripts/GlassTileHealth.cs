@@ -24,7 +24,7 @@ public class GlassTileHealth : MonoBehaviour
     {
         if (isOccupied())
         {
-            AdjustHealth(-.5f);
+            AdjustHealth(-.25f);
         }
     }
 

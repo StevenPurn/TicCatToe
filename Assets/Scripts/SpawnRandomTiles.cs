@@ -24,7 +24,7 @@ public class SpawnRandomTiles : MonoBehaviour {
 
     public void CheckForRandomTiles()
     {
-        if (curRandomTiles.Count < 2)
+        if (curRandomTiles.Count < 4 )
         {
             SpawnRandomTile(Random.Range(1,9));
         }

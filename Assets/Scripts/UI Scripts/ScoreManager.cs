@@ -7,6 +7,9 @@ public class ScoreManager : MonoBehaviour {
 
     Text playerOneText;
     Text playerTwoText;
+    public GameObject winPanel;
+    public bool gameOver;
+    private int winningScore = 1;
 
     public void Start()
     {
@@ -46,6 +49,19 @@ public class ScoreManager : MonoBehaviour {
     {
         ScoreByPlayer[player] += score;
         UpdateScoreText(player);
+
+        if(ScoreByPlayer[player] >= winningScore)
+        {
+            gameOver = true;
+            winPanel.gameObject.SetActive(true);
+            winPanel.GetComponentInChildren<ButtonSpriteSetter>().SetButtonSprite(player);
+        }
+
+    }
+
+    public void SetWinningScore(int winningScore)
+    {
+        this.winningScore = winningScore;
     }
 
     public int GetScore(Player player)
