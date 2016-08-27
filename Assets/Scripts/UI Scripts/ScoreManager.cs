@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour {
     Text playerTwoText;
     public GameObject winPanel;
     public bool gameOver;
-    private int winningScore = 1;
+    private int winningScore = 15;
 
     public void Start()
     {
