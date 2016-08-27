@@ -54,6 +54,9 @@ public class ScoreManager : MonoBehaviour {
         {
             gameOver = true;
             winPanel.gameObject.SetActive(true);
+            winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
+                ? "Cheeses prevail!"
+                : "CATS!";
             winPanel.GetComponentInChildren<ButtonSpriteSetter>().SetButtonSprite(player);
         }
 
