@@ -138,8 +138,8 @@ public class BoardManager : MonoBehaviour {
 
     void SetPosition(GameObject tile, TileLocation tileLocation)
     {
-        float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.5f;    //Magic numbers depend
-        float tileY = (tileLocation.y - tileLocation.x) * 0.95f;                //on scale of sprites
+        float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.84f;      //Magic numbers depend
+        float tileY = (tileLocation.y - tileLocation.x) * 1.22f;                     //on scale of sprites
         tile.transform.position = new Vector2(tileX, tileY);
         tile.GetComponentInChildren<TileBehaviour>().TileLocation = tileLocation;
     }

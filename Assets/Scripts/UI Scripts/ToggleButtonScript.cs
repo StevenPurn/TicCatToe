@@ -10,37 +10,46 @@ public class ToggleButtonScript : MonoBehaviour {
     public Sprite offImg;
     public bool toggleOn = true;
 
+    private AudioScript audioController;
+
     void Start()
     {
         buttonImg = GetComponent<Image>();
+        audioController = GameObject.Find("AudioController").GetComponent<AudioScript>();
+        if(buttonType == TypeOfButton.music)
+        {
+            toggleOn = AudioScript.playMusic;
+        }else
+        {
+            toggleOn = AudioScript.playSFX;
+        }
+
+        SetSprite();
     }
 
     public void ToggleButton()
     {
-        if (toggleOn)
+        if (buttonType == TypeOfButton.music)
         {
-            if (buttonType == TypeOfButton.music)
-            {
-                Debug.Log("Turn off music");
-            }
-            else
-            {
-                Debug.Log("Turn off sound effects");
-            }
-            buttonImg.sprite = offImg;
+            audioController.ToggleMusic();
         }
         else
         {
-            if (buttonType == TypeOfButton.music)
-            {
-                Debug.Log("Turn on music");
-            }
-            else
-            {
-                Debug.Log("Turn on sound effects");
-            }
-            buttonImg.sprite = onImg;
+            audioController.ToggleSFX();
         }
         toggleOn = !toggleOn;
+        SetSprite();
+    }
+
+    private void SetSprite()
+    {
+        if (toggleOn)
+        {
+            buttonImg.sprite = onImg;
+        }
+        else
+        {
+            buttonImg.sprite = offImg;
+        }
     }
 }
