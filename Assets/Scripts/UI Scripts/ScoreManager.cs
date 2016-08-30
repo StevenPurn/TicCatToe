@@ -2,16 +2,24 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
 
     Text playerOneText;
     Text playerTwoText;
+	public Text scoreBoardText;
     public GameObject winPanel;
     public bool gameOver;
-    private int winningScore = 15;
+	private int winningScore = 15;
 
-    public void Start()
+	public void Start(){
+		winningScore = GameObject.Find ("MenuController").GetComponent<ScoreTracker> ().winningScore;
+		scoreBoardText.text = "To win: " + winningScore.ToString ();
+		SubscribeToThings ();
+	}
+
+    public void SubscribeToThings()
     {
         FindObjectOfType<WinChecking>().SendWinEvent += UpdateScore;
         playerOneText = GameObject.Find("PlayerOneScoreText").GetComponent<Text>();
@@ -19,7 +27,7 @@ public class ScoreManager : MonoBehaviour {
         UpdateScoreText(Player.playerOne);
         UpdateScoreText(Player.playerTwo);
     }
-
+		
     void UpdateScore(HashSet<Tile> winningTiles)
     {
         Player curPlayer = Player.playerOne;

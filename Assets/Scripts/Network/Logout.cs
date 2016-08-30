@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using GameSparks.Api.Requests;
+using Facebook.Unity;
 
 public class Logout : MonoBehaviour {
 
@@ -17,6 +18,6 @@ public class Logout : MonoBehaviour {
     public void LogOut()
     {
         GameSparks.Core.GS.Reset();
-        FB.Logout();
+        FB.LogOut();
     }
 }

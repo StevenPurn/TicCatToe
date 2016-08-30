@@ -35,6 +35,7 @@ public class GlassTileHealth : MonoBehaviour
         if (curHealth <= 0)
         {
             FindObjectOfType<BoardManager>().turnEndEvent -= TurnEnd;
+			GetComponent<TileTap> ().enabled = false;
             StartCoroutine(WaitForAnimation());
         }else
         {

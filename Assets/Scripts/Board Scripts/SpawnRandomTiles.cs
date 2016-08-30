@@ -35,21 +35,19 @@ public class SpawnRandomTiles : MonoBehaviour {
         boardTiles = GameObject.Find("BoardManager").GetComponent<BoardManager>().BoardTiles;
         TileLocation tileLoc = GetComponent<BoardLocationDictionary>().RandomSpawnPoints[randomKey];
 
-        if (boardTiles[tileLoc.x, tileLoc.y].typeOfTile != TileType.emptyTile)
+		while (boardTiles[tileLoc.x, tileLoc.y].typeOfTile == TileType.glassTile)
         {
-            var prevRand = randomKey;
-            do
-            {
-                randomKey = Random.Range(1, 9);
-            }
-            while (randomKey == prevRand);
-
-            tileLoc = GetComponent<BoardLocationDictionary>().RandomSpawnPoints[randomKey];
+			randomKey += 1;
+			if (randomKey > 8) {
+				randomKey = 1;
+			}
+			tileLoc = GetComponent<BoardLocationDictionary>().RandomSpawnPoints[randomKey];
         }
+			
         //Don't need to remove from the array because it will be overwritten?
         curRandomTiles.Add(tileLoc);
         RemoveTileEvent(tileLoc);
-        AddTileEvent(tileLoc, TileType.glassTile, TileValue.empty);
+		AddTileEvent(tileLoc, TileType.glassTile, TileValue.empty);
     }
 
 }

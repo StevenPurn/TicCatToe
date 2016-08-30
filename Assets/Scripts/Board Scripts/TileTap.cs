@@ -7,6 +7,9 @@ public class TileTap : MonoBehaviour {
 
     public bool gameOver;
 
+	void Update(){
+	}
+
     void OnMouseUpAsButton()
     {
         ScoreManager scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
