@@ -13,6 +13,9 @@ public class ScoreManager : MonoBehaviour {
     public bool gameOver;
 	private int winningScore = 15;
 
+	public Sprite cheeseWinImage;
+	public Sprite catWinImage;
+
 	public void Start(){
 		winningScore = GameObject.Find ("MenuController").GetComponent<ScoreTracker> ().winningScore;
 		scoreBoardText.text = "To win: " + winningScore.ToString ();
@@ -62,10 +65,9 @@ public class ScoreManager : MonoBehaviour {
         {
             gameOver = true;
             winPanel.gameObject.SetActive(true);
-            winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
-                ? "Cheeses prevail!"
-                : "CATS!";
-            winPanel.GetComponentInChildren<ButtonSpriteSetter>().SetButtonSprite(player);
+            winPanel.GetComponentInChildren<Image>().sprite = player == Player.playerOne
+                ? cheeseWinImage
+                : catWinImage;
         }
 
     }

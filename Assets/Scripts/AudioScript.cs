@@ -24,9 +24,9 @@ public class AudioScript : MonoBehaviour {
 
     public void ToggleMusic()
     {
-        playMusic = !playMusic;
-        audioSource.enabled = playMusic;
-    }
+		audioSource.mute = playMusic;
+		playMusic = !playMusic;
+	}
 
     public void ToggleSFX()
     {

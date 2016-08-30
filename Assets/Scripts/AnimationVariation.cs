@@ -18,8 +18,6 @@ public class AnimationVariation : MonoBehaviour {
 
 	IEnumerator WaitForAnimation(Animator anim)
 	{
-		Debug.Log (anim.GetCurrentAnimatorStateInfo(0));
-		Debug.Log (anim.GetCurrentAnimatorClipInfo(0));
 		yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);	
 		GetComponent<TileTap> ().enabled = true;
 		anim.speed = 1;

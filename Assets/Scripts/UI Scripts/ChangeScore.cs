@@ -22,6 +22,11 @@ public class ChangeScore : MonoBehaviour {
 
 	public void AdjustScore(int scoreChange){
 		winningScore += scoreChange;
+
+		if (winningScore <= 0) {
+			winningScore = 1;
+		}
+
 		UpdateScoreText ();
 		UpdateMenuController ();
 	}
