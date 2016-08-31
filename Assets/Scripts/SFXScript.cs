@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AudioScript : MonoBehaviour {
+public class SFXScript : MonoBehaviour {
 
     public static bool playMusic = true;
     public static bool playSFX = true;

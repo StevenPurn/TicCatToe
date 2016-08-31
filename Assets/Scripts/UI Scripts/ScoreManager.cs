@@ -68,6 +68,9 @@ public class ScoreManager : MonoBehaviour {
             winPanel.GetComponentInChildren<Image>().sprite = player == Player.playerOne
                 ? cheeseWinImage
                 : catWinImage;
+			winPanel.GetComponentInChildren<Text> ().text = player == Player.playerOne
+				? "Cheese wins!"
+				: "Cats win!";
         }
 
     }

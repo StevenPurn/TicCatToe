@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ScoreMenu : MonoBehaviour {
 
+	public GameObject backButton;
 	public Animator anim;
 	public string animName;
 	private int animSpeed;
@@ -17,5 +18,6 @@ public class ScoreMenu : MonoBehaviour {
 		anim.SetFloat(animName, animSpeed);
 		anim.Play(animName);
 		animSpeed = -animSpeed;
+		backButton.SetActive (true);
 	}
 }

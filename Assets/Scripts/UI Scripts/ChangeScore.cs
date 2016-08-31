@@ -23,8 +23,8 @@ public class ChangeScore : MonoBehaviour {
 	public void AdjustScore(int scoreChange){
 		winningScore += scoreChange;
 
-		if (winningScore <= 0) {
-			winningScore = 1;
+		if (winningScore <= 3) {
+			winningScore = 3;
 		}
 
 		UpdateScoreText ();

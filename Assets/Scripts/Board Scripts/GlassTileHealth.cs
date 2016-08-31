@@ -76,7 +76,7 @@ public class GlassTileHealth : MonoBehaviour
         Animator anim = GetComponent<Animator>();
         anim.enabled = true;
         anim.Play(animName);
-        GameObject.Find("AudioController").GetComponent<AudioScript>().PlaySFX(AudioScript.AudioClipEnum.glassBreak);
+        GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.glassBreak);
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         GetComponent<ListenForTileRemoval>().RemoveTile(tileLocation);
     }

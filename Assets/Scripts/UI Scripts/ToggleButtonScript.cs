@@ -10,18 +10,20 @@ public class ToggleButtonScript : MonoBehaviour {
     public Sprite offImg;
     public bool toggleOn = true;
 
-    private AudioScript audioController;
+    private SFXScript sfxController;
+	private MusicScript musicController;
 
     void Start()
     {
         buttonImg = GetComponent<Image>();
-        audioController = GameObject.Find("AudioController").GetComponent<AudioScript>();
+        musicController = GameObject.Find("AudioController").GetComponent<MusicScript>();
+		sfxController = GameObject.Find ("SFXController").GetComponent<SFXScript> ();
         if(buttonType == TypeOfButton.music)
         {
-            toggleOn = AudioScript.playMusic;
+            toggleOn = MusicScript.playMusic;
         }else
         {
-            toggleOn = AudioScript.playSFX;
+            toggleOn = SFXScript.playSFX;
         }
 
         SetSprite();
@@ -31,11 +33,11 @@ public class ToggleButtonScript : MonoBehaviour {
     {
         if (buttonType == TypeOfButton.music)
         {
-            audioController.ToggleMusic();
+            musicController.ToggleMusic();
         }
         else
         {
-            audioController.ToggleSFX();
+            sfxController.ToggleSFX();
         }
         toggleOn = !toggleOn;
         SetSprite();
