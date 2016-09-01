@@ -21,8 +21,13 @@ public class BoardManager : MonoBehaviour {
     public ChangePlayerDelegate changePlayerEvent;
 
     private GameObject boardObjects;
+    private GameObject catPrefab, cheesePrefab;
 
-    void Start() {
+    void Start()
+    {
+        catPrefab = (GameObject)Resources.Load("Prefabs/Cat");
+        cheesePrefab = (GameObject)Resources.Load("Prefabs/Cheese");
+
         if (GameObject.Find("BoardObjects") == null)
         {
             boardObjects = (GameObject)Instantiate(Resources.Load("Prefabs/BoardObjects"));
@@ -43,6 +48,7 @@ public class BoardManager : MonoBehaviour {
 
         //Set current player to player one (cheese)
         curPlayer = Player.playerOne;
+        StartCoroutine(HandleAi());
     }
 
     void HandleWins(HashSet<Tile> winningTiles)
@@ -136,7 +142,7 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
-    void SetPosition(GameObject tile, TileLocation tileLocation)
+    public void SetPosition(GameObject tile, TileLocation tileLocation)
     {
         float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.84f;      //Magic numbers depend
         float tileY = (tileLocation.y - tileLocation.x) * 1.22f;                     //on scale of sprites
@@ -158,11 +164,65 @@ public class BoardManager : MonoBehaviour {
         changePlayerEvent();
     }
 
+    TileLocation GetAiMove(Tile[,] boardTiles, Player curPlayer)
+    {
+        return new TileLocation(2, 2);
+    }
+
+    IEnumerator HandleAi()
+    {
+        if (curPlayer == GlobalData.AiPlayer)
+        {
+            yield return new WaitForSeconds(2);
+            // Given the current board state and the current player, what's a move?
+            TileLocation loc = GetAiMove(BoardTiles, curPlayer);
+            // Now place an item on that tile.
+            PlaceItemIfAvailable(loc);
+        }
+    }
+
     public void EndTurn()
     {
         WinCheckEvent();
         turnEndEvent();
         ChangePlayer();
         startTurnEvent();
+        StartCoroutine(HandleAi());
+    }
+
+    public void PlaceItemIfAvailable(TileLocation tilePosition)
+    {
+        Tile tile = BoardTiles[tilePosition.x, tilePosition.y];
+        if (tile.tileOccupied == false)
+        {
+            PlaceItem(tilePosition);
+        }
+    }
+
+    void PlaceItem(TileLocation tileLoc)
+    {
+        TileValue tValue;
+        GameObject instantiatedItem;
+
+        if (curPlayer == Player.playerOne)
+        {
+            instantiatedItem = (GameObject)Instantiate(cheesePrefab, Vector3.zero, Quaternion.identity);
+            tValue = TileValue.cheese;
+        }
+        else
+        {
+            instantiatedItem = (GameObject)Instantiate(catPrefab, Vector3.zero, Quaternion.identity);
+            tValue = TileValue.cat;
+        }
+        GetComponent<BoardManager>().SetPosition(instantiatedItem, tileLoc);
+        instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tileLoc;
+        instantiatedItem.GetComponentInChildren<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLoc];
+
+        //Set value of Tile item in this slot to occupied & cat or cheese
+        Tile tile = BoardTiles[tileLoc.x, tileLoc.y];
+        tile.tileOccupied = true;
+        tile.valueOfTile = tValue;
+
+        EndTurn();
     }
 }
