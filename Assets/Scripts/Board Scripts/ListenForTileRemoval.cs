@@ -31,6 +31,7 @@ public class ListenForTileRemoval : MonoBehaviour {
                 {
                     GameObject.Find("BoardManager").GetComponent<SpawnRandomTiles>().ReduceRandomTileCount(tileLocation);
                 }
+                ReplaceTileEvent(tileLocation, TileType.emptyTile, TileValue.empty);
             }
             FindObjectOfType<SpawnRandomTiles>().RemoveTileEvent -= RemoveTile;
             Destroy(this.transform.parent.gameObject);

@@ -4,23 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class ScoreManager : MonoBehaviour {
+public class ScoreManager : MonoBehaviour
+{
 
     Text playerOneText;
     Text playerTwoText;
-	public Text scoreBoardText;
+    public Text scoreBoardText;
     public GameObject winPanel;
-    public bool gameOver;
-	private int winningScore = 15;
+    static public bool gameOver;
+    private int winningScore = 15;
 
-	public Sprite cheeseWinImage;
-	public Sprite catWinImage;
+    public Sprite cheeseWinImage;
+    public Sprite catWinImage;
 
-	public void Start(){
-		winningScore = GameObject.Find ("MenuController").GetComponent<ScoreTracker> ().winningScore;
-		scoreBoardText.text = "To win: " + winningScore.ToString ();
-		SubscribeToThings ();
-	}
+    public void Start()
+    {
+        winningScore = GameObject.Find("MenuController").GetComponent<ScoreTracker>().winningScore;
+        scoreBoardText.text = "To win: " + winningScore.ToString();
+        SubscribeToThings();
+        gameOver = false;
+    }
 
     public void SubscribeToThings()
     {
@@ -30,14 +33,14 @@ public class ScoreManager : MonoBehaviour {
         UpdateScoreText(Player.playerOne);
         UpdateScoreText(Player.playerTwo);
     }
-		
+
     void UpdateScore(HashSet<Tile> winningTiles)
     {
         Player curPlayer = Player.playerOne;
 
         foreach (Tile tile in winningTiles)
         {
-            if(tile.valueOfTile == TileValue.cat)
+            if (tile.valueOfTile == TileValue.cat)
             {
                 curPlayer = Player.playerTwo;
             }
@@ -61,16 +64,16 @@ public class ScoreManager : MonoBehaviour {
         ScoreByPlayer[player] += score;
         UpdateScoreText(player);
 
-        if(ScoreByPlayer[player] >= winningScore)
+        if (ScoreByPlayer[player] >= winningScore)
         {
             gameOver = true;
             winPanel.gameObject.SetActive(true);
             winPanel.GetComponentInChildren<Image>().sprite = player == Player.playerOne
                 ? cheeseWinImage
                 : catWinImage;
-			winPanel.GetComponentInChildren<Text> ().text = player == Player.playerOne
-				? "Cheese wins!"
-				: "Cats win!";
+            winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
+                ? "Cheese wins!"
+                : "Cats win!";
         }
 
     }
@@ -87,7 +90,7 @@ public class ScoreManager : MonoBehaviour {
 
     void UpdateScoreText(Player player)
     {
-        if(player == Player.playerOne)
+        if (player == Player.playerOne)
         {
             playerOneText.text = ScoreByPlayer[player].ToString();
         }

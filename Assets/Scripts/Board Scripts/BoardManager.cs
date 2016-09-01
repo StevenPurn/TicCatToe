@@ -166,17 +166,26 @@ public class BoardManager : MonoBehaviour {
 
     TileLocation GetAiMove(Tile[,] boardTiles, Player curPlayer)
     {
-        return new TileLocation(2, 2);
+        var availableTileLocs = new List<TileLocation>();
+        foreach (var tile in boardTiles)
+        {
+            if (!tile.tileOccupied && tile.typeOfTile != TileType.emptyTile)
+            {
+                availableTileLocs.Add(tile.locationOfTile);
+            }
+        }
+        int idx = Random.Range(0, availableTileLocs.Count);
+        return availableTileLocs[idx];
     }
 
     IEnumerator HandleAi()
     {
-        if (curPlayer == GlobalData.AiPlayer)
+        if (curPlayer == GlobalData.AiPlayer && !ScoreManager.gameOver)
         {
             yield return new WaitForSeconds(2);
             // Given the current board state and the current player, what's a move?
             TileLocation loc = GetAiMove(BoardTiles, curPlayer);
-            // Now place an item on that tile.
+            // Place an item on that tile.
             PlaceItemIfAvailable(loc);
         }
     }
