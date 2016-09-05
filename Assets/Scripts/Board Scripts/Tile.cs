@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Tile {
+public class Tile
+{
     public TileType typeOfTile;
     public TileValue valueOfTile;
     public TileLocation locationOfTile;
