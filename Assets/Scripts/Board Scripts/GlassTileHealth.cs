@@ -5,7 +5,8 @@ using System;
 public class GlassTileHealth : MonoBehaviour
 {
     private float curHealth;
-    private const float MAX_HEALTH = 2.5f;
+    public const float HEALTH_DECREMENT = -.25f;
+    public const float MAX_HEALTH = 2.5f;
     public string animName;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
@@ -29,7 +30,7 @@ public class GlassTileHealth : MonoBehaviour
     {
         if (isOccupied())
         {
-            AdjustHealth(-.25f);
+            AdjustHealth(HEALTH_DECREMENT);
         }
     }
 

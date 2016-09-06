@@ -6,12 +6,7 @@ using System.IO;
 
 public static class AIGenius
 {
-    //Glass tile health
-    //What is the score?
-    //What will the score be in each scenario?
-    //What do I want for dinner?
-    //What's the best Pixar movie?
-    private static int maxDepth = 2;
+    private static int maxDepth = 3;
     private static Dictionary<int, TileLocation> randomSpawnPoints;
 
     public static TileLocation GetMove(Tile[,] boardTiles, Player curPlayer)
@@ -50,7 +45,10 @@ public static class AIGenius
         {
             if (gameState.boardTiles[spawnLoc.Value.x, spawnLoc.Value.y].typeOfTile == TileType.emptyTile)
             {
-                gameStates.Add(GetGameStateForMoveSpawn(gameState, tileLocation, spawnLoc.Value));
+                if (gameStates.Count == 0)
+                {
+                    gameStates.Add(GetGameStateForMoveSpawn(gameState, tileLocation, spawnLoc.Value));
+                }
             }
         }
         return gameStates;
@@ -74,20 +72,45 @@ public static class AIGenius
         HashSet<Tile> winningTiles = WinChecking.CheckWins(newGameState.boardTiles);
         newGameState.scoreByPlayer[newGameState.curPlayer] += winningTiles.Count;
 
+        foreach (Tile tile in newGameState.boardTiles)
+        {
+            if (tile.typeOfTile == TileType.glassTile)
+            {
+                tile.tileHealth -= GlassTileHealth.HEALTH_DECREMENT;
+                if (tile.tileHealth <= 0)
+                {
+                    tile.valueOfTile = TileValue.empty;
+                    tile.tileOccupied = false;
+                    
+                    if (randomSpawnPoints.ContainsValue(tile.locationOfTile))
+                    {
+                        tile.typeOfTile = TileType.emptyTile;
+                    }
+                    else
+                    {
+                        tile.tileHealth = GlassTileHealth.MAX_HEALTH;
+                    }
+                }
+            }
+        }
+
         foreach (Tile tile in winningTiles)
         {
             newGameState.boardTiles[tile.locationOfTile.x, tile.locationOfTile.y].valueOfTile = TileValue.empty;
             newGameState.boardTiles[tile.locationOfTile.x, tile.locationOfTile.y].tileOccupied = false;
         }
 
+        newGameState.curPlayer = newGameState.curPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
+
         return newGameState;
     }
 
     private static ScoredMove GetScoredMove(GameState gameState, int depth = 0)
     {
+        Debug.Log(gameState.curPlayer.ToString());
         Player humanPlayer = GlobalData.AiPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
         Player aiPlayer = (Player)GlobalData.AiPlayer;
-        int bestValue = int.MinValue;
+        int bestValue = gameState.curPlayer == GlobalData.AiPlayer ? int.MaxValue : int.MinValue;
         TileLocation? bestLocation = null;
 
         if (gameState.scoreByPlayer[humanPlayer] >= ScoreManager.winningScore)
@@ -103,32 +126,41 @@ public static class AIGenius
         else if (depth >= maxDepth)
         {
             Debug.Log(gameState.scoreByPlayer[humanPlayer] - gameState.scoreByPlayer[aiPlayer]);
-            bestValue = gameState.scoreByPlayer[humanPlayer] - gameState.scoreByPlayer[aiPlayer];
+            bestValue = (gameState.scoreByPlayer[humanPlayer] - gameState.scoreByPlayer[aiPlayer]) * 100;
         }
         else
         {
             foreach (var tileLocation in GetPossibleMoves(gameState.boardTiles))
             {
                 int? boardValue = null;
-                IEnumerable<GameState> possibleGameStates = GetGameStatesForMove(gameState, tileLocation);
-                foreach (var possibleGameState in possibleGameStates)
+                if (!bestLocation.HasValue)
                 {
-                    var moveScore = GetScoredMove(possibleGameState, depth + 1).value;
-                    if (!boardValue.HasValue)
+                    bestLocation = tileLocation;
+                }
+                IEnumerable<GameState> possibleGameStates = GetGameStatesForMove(gameState, tileLocation);
+                boardValue = GetScoredMove(new List<GameState>(possibleGameStates)[0], depth + 1).value;
+ 
+                if(gameState.curPlayer == GlobalData.AiPlayer)
+                {
+                    if (bestValue > boardValue.Value)
                     {
-                        boardValue = moveScore;
+                        Debug.Log("New Best for AI");
+                        Debug.Log(boardValue.Value);
+                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
+                        bestValue = boardValue.Value;
+                        bestLocation = tileLocation;
                     }
-                    else
+                }else
+                {
+                    if (bestValue < boardValue.Value)
                     {
-                        boardValue = gameState.curPlayer == GlobalData.AiPlayer
-                            ? Mathf.Max(boardValue.Value, moveScore)
-                            : Mathf.Min(boardValue.Value, moveScore);
+                        Debug.Log("New Best for HUMAN");
+                        Debug.Log(boardValue.Value);
+                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
+                        bestValue = boardValue.Value;
+                        bestLocation = tileLocation;
                     }
                 }
-                bestValue = gameState.curPlayer == GlobalData.AiPlayer
-                    ? Mathf.Min(bestValue, boardValue.Value)
-                    : Mathf.Max(bestValue, boardValue.Value);
-                bestLocation = tileLocation;
             }
         }
 

@@ -19,6 +19,8 @@ public class ScoreManager : MonoBehaviour
 
     public void Start()
     {
+        cheeseWinImage = Resources.Load<Sprite>("Sprites/CheeseWinImage");
+        catWinImage = Resources.Load<Sprite>("Sprites/CatWinImage");
         scoreBoardText = GameObject.Find("Scoreboard").GetComponent<Text>();
         winPanel = GameObject.Find("WinPanel");
         winPanel.SetActive(false);
@@ -26,6 +28,10 @@ public class ScoreManager : MonoBehaviour
         scoreBoardText.text = "To win: " + winningScore.ToString();
         SubscribeToThings();
         gameOver = false;
+        ScoreByPlayer[Player.playerOne] = 0;
+        ScoreByPlayer[Player.playerTwo] = 0;
+        UpdateScoreText(Player.playerOne);
+        UpdateScoreText(Player.playerTwo);
     }
 
     public void SubscribeToThings()
