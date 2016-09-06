@@ -11,6 +11,7 @@ public class SpawnRandomTiles : MonoBehaviour {
     public AddTileDelegate AddTileEvent;
     public delegate void RemoveTileDelegate(TileLocation tileLocation);
     public RemoveTileDelegate RemoveTileEvent;
+    public static int maxRandomTiles = 4;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class SpawnRandomTiles : MonoBehaviour {
 
     public void CheckForRandomTiles()
     {
-        if (curRandomTiles.Count < 4 )
+        if (curRandomTiles.Count < maxRandomTiles )
         {
             SpawnRandomTile(Random.Range(1,9));
         }

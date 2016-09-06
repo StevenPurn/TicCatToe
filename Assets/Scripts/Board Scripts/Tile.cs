@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Serializable]
 public class Tile
 {
     public TileType typeOfTile;
     public TileValue valueOfTile;
     public TileLocation locationOfTile;
+    [NonSerialized]
     public SortingLayer sortLayer;
+    [NonSerialized]
     public Vector2 worldSpaceLocation;
     public bool tileOccupied = false;
+    public float tileHealth;
 
     public Tile(TileLocation tileLocation, TileType tileType, TileValue tileValue)
     {

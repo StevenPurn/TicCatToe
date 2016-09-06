@@ -53,6 +53,8 @@ public class BoardManager : MonoBehaviour {
 
     void HandleWins(HashSet<Tile> winningTiles)
     {
+        ScoreManager.UpdateScore(winningTiles);
+
         foreach (Tile tile in winningTiles)
         {
             tile.valueOfTile = TileValue.empty;
@@ -164,27 +166,13 @@ public class BoardManager : MonoBehaviour {
         changePlayerEvent();
     }
 
-    TileLocation GetAiMove(Tile[,] boardTiles, Player curPlayer)
-    {
-        var availableTileLocs = new List<TileLocation>();
-        foreach (var tile in boardTiles)
-        {
-            if (!tile.tileOccupied && tile.typeOfTile != TileType.emptyTile)
-            {
-                availableTileLocs.Add(tile.locationOfTile);
-            }
-        }
-        int idx = Random.Range(0, availableTileLocs.Count);
-        return availableTileLocs[idx];
-    }
-
     IEnumerator HandleAi()
     {
         if (curPlayer == GlobalData.AiPlayer && !ScoreManager.gameOver)
         {
             yield return new WaitForSeconds(2);
             // Given the current board state and the current player, what's a move?
-            TileLocation loc = GetAiMove(BoardTiles, curPlayer);
+            TileLocation loc = AIGenius.GetMove(BoardTiles, curPlayer);
             // Place an item on that tile.
             PlaceItemIfAvailable(loc);
         }
@@ -192,7 +180,7 @@ public class BoardManager : MonoBehaviour {
 
     public void EndTurn()
     {
-        WinCheckEvent();
+        HandleWins(WinChecking.CheckWins(BoardTiles));
         turnEndEvent();
         ChangePlayer();
         startTurnEvent();

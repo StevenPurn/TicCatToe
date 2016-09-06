@@ -11,13 +11,18 @@ public class GlassTileHealth : MonoBehaviour
     public Sprite sprite1, sprite2, sprite3, sprite4;
     public enum GlassSprite { glassSprite1 = 0, glassSprite2, glassSprite3, glassSprite4 };
     public GlassSprite glassSprite;
+    public BoardManager boardManager;
+    public TileLocation tileLocation;
 
     // Use this for initialization
     void Start()
     {
         curHealth = MAX_HEALTH;
         ChangeSprite(curHealth);
-        FindObjectOfType<BoardManager>().turnEndEvent += TurnEnd;
+        boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+        boardManager.turnEndEvent += TurnEnd;
+
+        tileLocation = GetComponent<TileBehaviour>().TileLocation;
     }
 
     public void TurnEnd()
@@ -31,10 +36,11 @@ public class GlassTileHealth : MonoBehaviour
     public void AdjustHealth(float healthChange)
     {
         curHealth += healthChange;
+        boardManager.BoardTiles[tileLocation.x, tileLocation.y].tileHealth = curHealth;
 
         if (curHealth <= 0)
         {
-            FindObjectOfType<BoardManager>().turnEndEvent -= TurnEnd;
+            boardManager.turnEndEvent -= TurnEnd;
 			GetComponent<TileTap> ().enabled = false;
             StartCoroutine(WaitForAnimation());
         }else
@@ -71,7 +77,6 @@ public class GlassTileHealth : MonoBehaviour
 
     IEnumerator WaitForAnimation()
     {
-        TileLocation tileLocation = GetComponent<TileBehaviour>().TileLocation;
         GameObject.Find("BoardManager").GetComponent<ClearItemFromTile>().RemoveItemFromTileLose(tileLocation);
         Animator anim = GetComponent<Animator>();
         anim.enabled = true;
