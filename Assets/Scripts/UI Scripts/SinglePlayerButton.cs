@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class SinglePlayerButton : MonoBehaviour
 {
-    public void StartSinglePlayerGame()
+    public void StartSinglePlayerGame(Player player, Toggle toggle)
     {
-        GlobalData.AiPlayer = Player.playerOne;
+        GlobalData.AiPlayer = player;
     }
 }
