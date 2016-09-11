@@ -3,14 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.ComponentModel;
+using System.Threading;
+using System.Collections;
 
 public static class AIGenius
 {
-    private static int maxDepth = 3;
+    private static int maxDepth = 1;
     private static Dictionary<int, TileLocation> randomSpawnPoints;
+    public static BoardManager boardManager;
+    private static BackgroundWorker SmartGamePlayer = new BackgroundWorker();
+    public static TileLocation? result;
+    private static Thread activeThread;
 
-    public static TileLocation GetMove(Tile[,] boardTiles, Player curPlayer)
+    public static IEnumerator CalculateMove(Tile[,] boardTiles, Player curPlayer)
     {
+        yield return new WaitForSeconds(1f);
+        boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+        Debug.Log("CALCULATING");
         randomSpawnPoints = GameObject.Find("BoardManager").GetComponent<BoardLocationDictionary>().RandomSpawnPoints;
 
         GameState gameState = new GameState
@@ -20,41 +30,24 @@ public static class AIGenius
             scoreByPlayer = ScoreManager.ScoreByPlayer,
         };
 
-        return GetScoredMove(gameState).location.Value;
+        foreach (var tile in boardTiles)
+        {
+            Debug.Log("Loc: (" + tile.locationOfTile.ToString() + ") || Val: " + tile.valueOfTile.ToString() + " || Type: " + tile.typeOfTile.ToString());
+        }
+
+        activeThread = new Thread(() => {
+            result = GetScoredMove(gameState).location.Value;
+        });
+        activeThread.Start();
+        while (result == null)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        boardManager.PlaceItemIfAvailable(result.Value);
+        result = null;
     }
 
-    private static IEnumerable<GameState> GetGameStatesForMove(GameState gameState, TileLocation tileLocation)
-    {
-        int curRandTiles = 0;
-        foreach (var spawnLoc in randomSpawnPoints)
-        {
-            if (gameState.boardTiles[spawnLoc.Value.x, spawnLoc.Value.y].typeOfTile == TileType.glassTile)
-            {
-                curRandTiles += 1;
-            }
-        }
-
-        if (curRandTiles >= SpawnRandomTiles.maxRandomTiles)
-        {
-            return new List<GameState> { GetGameStateForMoveSpawn(gameState, tileLocation) };
-        }
-
-        List<GameState> gameStates = new List<GameState>();
-
-        foreach (var spawnLoc in randomSpawnPoints)
-        {
-            if (gameState.boardTiles[spawnLoc.Value.x, spawnLoc.Value.y].typeOfTile == TileType.emptyTile)
-            {
-                if (gameStates.Count == 0)
-                {
-                    gameStates.Add(GetGameStateForMoveSpawn(gameState, tileLocation, spawnLoc.Value));
-                }
-            }
-        }
-        return gameStates;
-    }
-
-    private static GameState GetGameStateForMoveSpawn(GameState gameState, TileLocation move, TileLocation? spawn = null)
+    private static GameState GetGameState(GameState gameState, TileLocation move, TileLocation? spawn = null)
     {
         GameState newGameState;
         using (var ms = new MemoryStream())
@@ -107,7 +100,6 @@ public static class AIGenius
 
     private static ScoredMove GetScoredMove(GameState gameState, int depth = 0)
     {
-        Debug.Log(gameState.curPlayer.ToString());
         Player humanPlayer = GlobalData.AiPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
         Player aiPlayer = (Player)GlobalData.AiPlayer;
         int bestValue = gameState.curPlayer == GlobalData.AiPlayer ? int.MaxValue : int.MinValue;
@@ -115,18 +107,15 @@ public static class AIGenius
 
         if (gameState.scoreByPlayer[humanPlayer] >= ScoreManager.winningScore)
         {
-            Debug.Log("Human win");
             bestValue = int.MaxValue;
         }
         else if (gameState.scoreByPlayer[aiPlayer] >= ScoreManager.winningScore)
         {
-            Debug.Log("AI win");
             bestValue = int.MinValue;
         }
         else if (depth >= maxDepth)
         {
-            Debug.Log(gameState.scoreByPlayer[humanPlayer] - gameState.scoreByPlayer[aiPlayer]);
-            bestValue = (gameState.scoreByPlayer[humanPlayer] - gameState.scoreByPlayer[aiPlayer]) * 100;
+            bestValue = GetScoreForGameState(gameState);
         }
         else
         {
@@ -137,8 +126,8 @@ public static class AIGenius
                 {
                     bestLocation = tileLocation;
                 }
-                IEnumerable<GameState> possibleGameStates = GetGameStatesForMove(gameState, tileLocation);
-                boardValue = GetScoredMove(new List<GameState>(possibleGameStates)[0], depth + 1).value;
+                GameState nextGameState = GetGameState(gameState, tileLocation);
+                boardValue = GetScoredMove(nextGameState, depth + 1).value;
  
                 if(gameState.curPlayer == GlobalData.AiPlayer)
                 {
@@ -183,6 +172,29 @@ public static class AIGenius
             }
         }
         return possibleMoves;
+    }
+
+    private static int GetScoreForGameState(GameState gameState)
+    {
+        int boardScore = 0;
+        Player humanPlayer = GlobalData.AiPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
+        TileValue aiTileValue = GlobalData.AiPlayer == Player.playerOne ? TileValue.cheese : TileValue.cat;
+        boardScore += (gameState.scoreByPlayer[GlobalData.AiPlayer.Value] - gameState.scoreByPlayer[humanPlayer]) * 1000;
+        foreach (var tile in gameState.boardTiles)
+        {
+            if (tile.valueOfTile != TileValue.empty)
+            {
+                if (tile.typeOfTile == TileType.glassTile)
+                {
+                    boardScore += (int)((tile.valueOfTile == aiTileValue ? -10  : 10) * tile.tileHealth/6);
+                }
+                else if (tile.typeOfTile == TileType.standardTile)
+                {
+                    boardScore += tile.valueOfTile == aiTileValue ? -30 : 30;
+                }
+            }
+        }
+        return boardScore;
     }
 }
 

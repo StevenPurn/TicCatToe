@@ -19,8 +19,8 @@ public class ScoreManager : MonoBehaviour
 
     public void Start()
     {
-        cheeseWinImage = Resources.Load<Sprite>("Sprites/CheeseWinImage");
-        catWinImage = Resources.Load<Sprite>("Sprites/CatWinImage");
+        cheeseWinImage = Resources.Load<Sprite>("Sprites/DogsWin");
+        catWinImage = Resources.Load<Sprite>("Sprites/CatsWin");
         scoreBoardText = GameObject.Find("Scoreboard").GetComponent<Text>();
         winPanel = GameObject.Find("WinPanel");
         winPanel.SetActive(false);
@@ -70,6 +70,7 @@ public class ScoreManager : MonoBehaviour
     {
         ScoreByPlayer[player] += score;
         UpdateScoreText(player);
+        GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.score);
 
         if (ScoreByPlayer[player] >= winningScore)
         {
@@ -79,8 +80,15 @@ public class ScoreManager : MonoBehaviour
                 ? cheeseWinImage
                 : catWinImage;
             winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
-                ? "Cheese wins!"
+                ? "Dogs win!"
                 : "Cats win!";
+            if(GlobalData.AiPlayer == player)
+            {
+                GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.lose);
+            }else
+            {
+                GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.win);
+            }
         }
 
     }

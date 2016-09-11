@@ -48,7 +48,7 @@ public class BoardManager : MonoBehaviour {
 
         //Set current player to player one (cheese)
         curPlayer = Player.playerOne;
-        StartCoroutine(HandleAi());
+        HandleAi();
     }
 
     void HandleWins(HashSet<Tile> winningTiles)
@@ -134,10 +134,10 @@ public class BoardManager : MonoBehaviour {
     {
         SpriteRenderer[] sr = tile.GetComponentsInChildren<SpriteRenderer>();
 
-        if (tileLocation == new TileLocation(2, 1) || tileLocation == new TileLocation(3, 2))
+        /*if (tileLocation == new TileLocation(2, 1) || tileLocation == new TileLocation(3, 2))
         {
             sr[0].sprite = Resources.Load<Sprite>("Sprites/Tile_front_v2");
-        }
+        }*/
         foreach (var i in sr)
         {
             i.sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLocation];
@@ -146,8 +146,8 @@ public class BoardManager : MonoBehaviour {
 
     public void SetPosition(GameObject tile, TileLocation tileLocation)
     {
-        float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.84f;      //Magic numbers depend
-        float tileY = (tileLocation.y - tileLocation.x) * 1.22f;                     //on scale of sprites
+        float tileX = (BoardSize-1-tileLocation.y - tileLocation.x) * -1.91f;            //Magic numbers depend
+        float tileY = (tileLocation.y - tileLocation.x) * 1.092f;                       //on scale of sprites
         tile.transform.position = new Vector2(tileX, tileY);
         tile.GetComponentInChildren<TileBehaviour>().TileLocation = tileLocation;
     }
@@ -166,15 +166,13 @@ public class BoardManager : MonoBehaviour {
         changePlayerEvent();
     }
 
-    IEnumerator HandleAi()
+    private void HandleAi()
     {
         if (curPlayer == GlobalData.AiPlayer && !ScoreManager.gameOver)
         {
-            yield return new WaitForSeconds(2);
             // Given the current board state and the current player, what's a move?
-            TileLocation loc = AIGenius.GetMove(BoardTiles, curPlayer);
+            StartCoroutine(AIGenius.CalculateMove(BoardTiles, curPlayer));
             // Place an item on that tile.
-            PlaceItemIfAvailable(loc);
         }
     }
 
@@ -184,14 +182,16 @@ public class BoardManager : MonoBehaviour {
         turnEndEvent();
         ChangePlayer();
         startTurnEvent();
-        StartCoroutine(HandleAi());
+        HandleAi();
     }
 
     public void PlaceItemIfAvailable(TileLocation tilePosition)
     {
+        Debug.Log("PLACING IF AVAILABLE");
         Tile tile = BoardTiles[tilePosition.x, tilePosition.y];
         if (tile.tileOccupied == false)
         {
+            Debug.Log("ACTUALLY PLACING");
             PlaceItem(tilePosition);
         }
     }

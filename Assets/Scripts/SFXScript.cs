@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
+using UnityEngine.Events;
 
 public class SFXScript : MonoBehaviour {
 
     public static bool playMusic = true;
     public static bool playSFX = true;
 
-    public enum AudioClipEnum { glassBreak, buttonClick, score, win };
+    public enum AudioClipEnum { glassBreak, buttonClick, score, win, lose };
 
-    public AudioClip glassBreakSFX, buttonClickSFX, scoreSFX, winSFX;
+    public AudioClip glassBreakSFX, buttonClickSFX, scoreSFX, winSFX, loseSFX;
 
     private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
         audioSource = GetComponent<AudioSource>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update () {
+    }
+
 
     public void ToggleMusic()
     {
@@ -54,6 +57,9 @@ public class SFXScript : MonoBehaviour {
                     break;
                 case AudioClipEnum.win:
                     audioSource.PlayOneShot(winSFX);
+                    break;
+                case AudioClipEnum.lose:
+                    audioSource.PlayOneShot(loseSFX);
                     break;
                 default:
                     break;

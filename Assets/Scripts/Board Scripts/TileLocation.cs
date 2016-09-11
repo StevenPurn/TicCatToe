@@ -19,6 +19,11 @@ public struct TileLocation
         return base.Equals(obj);
     }
 
+    public override string ToString()
+    {
+        return x + ", " + y;
+    }
+
     public static bool operator ==(TileLocation a, TileLocation b)
     {
         return a.x == b.x && a.y == b.y;

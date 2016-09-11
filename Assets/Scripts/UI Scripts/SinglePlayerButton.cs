@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class SinglePlayerButton : MonoBehaviour
 {
-    public void StartSinglePlayerGame(Player player, Toggle toggle)
+
+    public Player player;
+
+    public void StartSinglePlayerGame()
     {
         GlobalData.AiPlayer = player;
     }
