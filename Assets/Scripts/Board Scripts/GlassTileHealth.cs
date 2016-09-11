@@ -72,7 +72,10 @@ public class GlassTileHealth : MonoBehaviour
         }
         else
         {
-            rend.sprite = sprite4;
+            if (isOccupied())
+            {
+                rend.sprite = sprite3;
+            }
         }
     }
 

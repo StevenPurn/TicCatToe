@@ -123,6 +123,8 @@ public class BoardManager : MonoBehaviour {
         {
             instantiatedTile = (GameObject)Instantiate(StandardTileObj, boardObjects.transform);
             SetSprite(instantiatedTile, tileLocation);
+            var spriteChange = instantiatedTile.GetComponentInChildren<StandardTileSpriteChange>();
+            spriteChange.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
 
         SetPosition(instantiatedTile, tileLocation);
