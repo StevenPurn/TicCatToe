@@ -3,10 +3,12 @@ using System.Collections;
 
 public class ScoreMenu : MonoBehaviour {
 
-	public GameObject backButton;
+	public GameObject titleImage;
 	public Animator anim;
 	public string animName;
 	private int animSpeed;
+    public GameObject singlePlayerButton;
+    public GameObject vsButton;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +20,8 @@ public class ScoreMenu : MonoBehaviour {
 		anim.SetFloat(animName, animSpeed);
 		anim.Play(animName);
 		animSpeed = -animSpeed;
-		backButton.SetActive (true);
+		titleImage.SetActive(false);
+        singlePlayerButton.SetActive(false);
+        vsButton.SetActive(false);
 	}
 }

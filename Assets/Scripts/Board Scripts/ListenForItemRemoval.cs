@@ -26,6 +26,7 @@ public class ListenForItemRemoval : MonoBehaviour {
     {
         if (tileLocation == GetComponent<TileBehaviour>().TileLocation)
         {
+            GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.itemFall);
             FindObjectOfType<ClearItemFromTile>().removeItemWinEvent -= RemoveItemWin;
             FindObjectOfType<ClearItemFromTile>().removeItemLoseEvent -= RemoveItemLose;
             StartCoroutine(WaitForAnimation(loseAnimName));
