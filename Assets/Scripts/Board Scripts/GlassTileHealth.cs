@@ -5,12 +5,12 @@ using System;
 public class GlassTileHealth : MonoBehaviour
 {
     private float curHealth;
-    public const float HEALTH_DECREMENT = -.25f;
-    public const float MAX_HEALTH = 2.5f;
+    public const float HEALTH_DECREMENT = -.5f;
+    public const float MAX_HEALTH = 4f;
     public string animName;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
-    public enum GlassSprite { glassSprite1 = 0, glassSprite2, glassSprite3, glassSprite4 };
+    public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4 };
     public GlassSprite glassSprite;
     public BoardManager boardManager;
     public TileLocation tileLocation;
@@ -52,6 +52,8 @@ public class GlassTileHealth : MonoBehaviour
 
     void ChangeSprite(float sprite)
     {
+        Debug.Log(sprite);
+        Debug.Log("Ceil: " + Mathf.Ceil(sprite));
         if(GetComponent<SpriteRenderer>() == null)
         {
             return;

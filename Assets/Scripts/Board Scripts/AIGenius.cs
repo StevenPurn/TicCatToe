@@ -12,7 +12,6 @@ public static class AIGenius
     private static int maxDepth = 1;
     private static Dictionary<int, TileLocation> randomSpawnPoints;
     public static BoardManager boardManager;
-    private static BackgroundWorker SmartGamePlayer = new BackgroundWorker();
     public static TileLocation? result;
     private static Thread activeThread;
 
