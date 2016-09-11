@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class GlassTileHealth : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GlassTileHealth : MonoBehaviour
     public GlassSprite glassSprite;
     public BoardManager boardManager;
     public TileLocation tileLocation;
+    private Text healthText;
 
     // Use this for initialization
     void Start()
@@ -22,6 +24,8 @@ public class GlassTileHealth : MonoBehaviour
         ChangeSprite(curHealth);
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         boardManager.turnEndEvent += TurnEnd;
+
+        healthText = GetComponentInChildren<Text>();
 
         tileLocation = GetComponent<TileBehaviour>().TileLocation;
     }
@@ -47,7 +51,13 @@ public class GlassTileHealth : MonoBehaviour
         }else
         {
             ChangeSprite(curHealth);
+            UpdateText(curHealth);
         }
+    }
+
+    void UpdateText(float curHealth)
+    {
+        healthText.text = "Health: " + Mathf.Ceil(curHealth).ToString();
     }
 
     void ChangeSprite(float sprite)

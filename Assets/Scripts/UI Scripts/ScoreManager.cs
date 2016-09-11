@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     static Text playerOneText;
     static Text playerTwoText;
     public static Text scoreBoardText;
-    public static GameObject winPanel;
+    public static GameObject winPanel, winBackdrop;
     static public bool gameOver;
     public static int winningScore = 15;
 
@@ -23,6 +23,7 @@ public class ScoreManager : MonoBehaviour
         catWinImage = Resources.Load<Sprite>("Sprites/CatsWin");
         scoreBoardText = GameObject.Find("Scoreboard").GetComponent<Text>();
         winPanel = GameObject.Find("WinPanel");
+        winBackdrop = GameObject.Find("WinImage");
         winPanel.SetActive(false);
         winningScore = GameObject.Find("MenuController").GetComponent<ScoreTracker>().winningScore;
         scoreBoardText.text = "To win: " + winningScore.ToString();
@@ -76,7 +77,7 @@ public class ScoreManager : MonoBehaviour
         {
             gameOver = true;
             winPanel.gameObject.SetActive(true);
-            winPanel.GetComponentInChildren<Image>().sprite = player == Player.playerOne
+            winBackdrop.GetComponent<Image>().sprite = player == Player.playerOne
                 ? cheeseWinImage
                 : catWinImage;
             winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
