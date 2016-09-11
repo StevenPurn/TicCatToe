@@ -9,9 +9,9 @@ public class SFXScript : MonoBehaviour {
     public static bool playMusic = true;
     public static bool playSFX = true;
 
-    public enum AudioClipEnum { glassBreak, buttonClick, score, win, lose };
+    public enum AudioClipEnum { glassBreak, buttonClick, score, win, lose, placeCheese, placeCat };
 
-    public AudioClip glassBreakSFX, buttonClickSFX, scoreSFX, winSFX, loseSFX;
+    public AudioClip glassBreakSFX, buttonClickSFX, scoreSFX, winSFX, loseSFX, placeCheeseSFX, placeCatSFX;
 
     private AudioSource audioSource;
 
@@ -60,6 +60,12 @@ public class SFXScript : MonoBehaviour {
                     break;
                 case AudioClipEnum.lose:
                     audioSource.PlayOneShot(loseSFX);
+                    break;
+                case AudioClipEnum.placeCat:
+                    audioSource.PlayOneShot(placeCatSFX);
+                    break;
+                case AudioClipEnum.placeCheese:
+                    audioSource.PlayOneShot(placeCheeseSFX);
                     break;
                 default:
                     break;

@@ -23,6 +23,9 @@ public class BoardManager : MonoBehaviour {
     private GameObject boardObjects;
     private GameObject catPrefab, cheesePrefab;
 
+    private SFXScript sfxScript;
+
+
     void Start()
     {
         catPrefab = (GameObject)Resources.Load("Prefabs/Cat");
@@ -40,6 +43,7 @@ public class BoardManager : MonoBehaviour {
         StandardTileObj = (GameObject)Resources.Load("Prefabs/StandardTile");
         GlassTileObj = (GameObject)Resources.Load("Prefabs/GlassTile");
         EmptyTileObj = (GameObject)Resources.Load("Prefabs/EmptyTile");
+        sfxScript = GameObject.Find("SFXController").GetComponent<SFXScript>();
 
         CreateBoard();
         FindObjectOfType<SpawnRandomTiles>().AddTileEvent += AddTile;
@@ -187,11 +191,9 @@ public class BoardManager : MonoBehaviour {
 
     public void PlaceItemIfAvailable(TileLocation tilePosition)
     {
-        Debug.Log("PLACING IF AVAILABLE");
         Tile tile = BoardTiles[tilePosition.x, tilePosition.y];
         if (tile.tileOccupied == false)
         {
-            Debug.Log("ACTUALLY PLACING");
             PlaceItem(tilePosition);
         }
     }
@@ -205,11 +207,13 @@ public class BoardManager : MonoBehaviour {
         {
             instantiatedItem = (GameObject)Instantiate(cheesePrefab, Vector3.zero, Quaternion.identity);
             tValue = TileValue.cheese;
+            sfxScript.PlaySFX(SFXScript.AudioClipEnum.placeCheese);
         }
         else
         {
             instantiatedItem = (GameObject)Instantiate(catPrefab, Vector3.zero, Quaternion.identity);
             tValue = TileValue.cat;
+            sfxScript.PlaySFX(SFXScript.AudioClipEnum.placeCat);
         }
         GetComponent<BoardManager>().SetPosition(instantiatedItem, tileLoc);
         instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tileLoc;

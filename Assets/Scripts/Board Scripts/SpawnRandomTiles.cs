@@ -13,9 +13,12 @@ public class SpawnRandomTiles : MonoBehaviour {
     public RemoveTileDelegate RemoveTileEvent;
     public static int maxRandomTiles = 4;
 
+    private bool firstRandSpawn = true;
+
     void Start()
     {
         FindObjectOfType<BoardManager>().startTurnEvent += CheckForRandomTiles;
+        firstRandSpawn = true;
     }
 
     public void ReduceRandomTileCount(TileLocation tileLoc)
@@ -28,6 +31,11 @@ public class SpawnRandomTiles : MonoBehaviour {
         if (curRandomTiles.Count < maxRandomTiles )
         {
             SpawnRandomTile(Random.Range(1,9));
+            if (firstRandSpawn)
+            {
+                SpawnRandomTile(Random.Range(1, 9));
+                firstRandSpawn = false;
+            }
         }
     }
 
