@@ -10,7 +10,7 @@ public class GlassTileHealth : MonoBehaviour
     public const float MAX_HEALTH = 4f;
     public string animName;
     public Func<bool> isOccupied;
-    public Sprite sprite1, sprite2, sprite3, sprite4;
+    public Sprite sprite1, sprite2, sprite3, sprite4, sprite5;
     public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4, glassSprite5 };
     public GlassSprite glassSprite;
     public BoardManager boardManager;
@@ -62,8 +62,6 @@ public class GlassTileHealth : MonoBehaviour
 
     void ChangeSprite(float sprite)
     {
-        Debug.Log(sprite);
-        Debug.Log("Ceil: " + Mathf.Ceil(sprite));
         if(GetComponent<SpriteRenderer>() == null)
         {
             return;
@@ -84,13 +82,13 @@ public class GlassTileHealth : MonoBehaviour
         }
         else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite4)
         {
-            rend.sprite = sprite3;
+            rend.sprite = sprite4;
         }
         else
         {
             if (isOccupied())
             {
-                rend.sprite = sprite3;
+                rend.sprite = sprite4;
             }
         }
     }

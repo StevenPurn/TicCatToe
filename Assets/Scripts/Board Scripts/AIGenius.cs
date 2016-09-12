@@ -19,7 +19,6 @@ public static class AIGenius
     {
         yield return new WaitForSeconds(1f);
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
-        Debug.Log("CALCULATING");
         randomSpawnPoints = GameObject.Find("BoardManager").GetComponent<BoardLocationDictionary>().RandomSpawnPoints;
 
         GameState gameState = new GameState
@@ -28,11 +27,6 @@ public static class AIGenius
             curPlayer = curPlayer,
             scoreByPlayer = ScoreManager.ScoreByPlayer,
         };
-
-        foreach (var tile in boardTiles)
-        {
-            Debug.Log("Loc: (" + tile.locationOfTile.ToString() + ") || Val: " + tile.valueOfTile.ToString() + " || Type: " + tile.typeOfTile.ToString());
-        }
 
         activeThread = new Thread(() => {
             result = GetScoredMove(gameState).location.Value;
@@ -132,9 +126,9 @@ public static class AIGenius
                 {
                     if (bestValue > boardValue.Value)
                     {
-                        Debug.Log("New Best for AI");
-                        Debug.Log(boardValue.Value);
-                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
+//                        Debug.Log("New Best for AI");
+//                        Debug.Log(boardValue.Value);
+//                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
                     }
@@ -142,9 +136,9 @@ public static class AIGenius
                 {
                     if (bestValue < boardValue.Value)
                     {
-                        Debug.Log("New Best for HUMAN");
-                        Debug.Log(boardValue.Value);
-                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
+//                        Debug.Log("New Best for HUMAN");
+//                        Debug.Log(boardValue.Value);
+//                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
                     }
