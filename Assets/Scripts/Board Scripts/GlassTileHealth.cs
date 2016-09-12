@@ -11,7 +11,7 @@ public class GlassTileHealth : MonoBehaviour
     public string animName;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4;
-    public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4 };
+    public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4, glassSprite5 };
     public GlassSprite glassSprite;
     public BoardManager boardManager;
     public TileLocation tileLocation;
@@ -79,6 +79,10 @@ public class GlassTileHealth : MonoBehaviour
             rend.sprite = sprite2;
         }
         else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite3)
+        {
+            rend.sprite = sprite3;
+        }
+        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite4)
         {
             rend.sprite = sprite3;
         }
