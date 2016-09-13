@@ -51,13 +51,7 @@ public class GlassTileHealth : MonoBehaviour
         }else
         {
             ChangeSprite(curHealth);
-            UpdateText(curHealth);
         }
-    }
-
-    void UpdateText(float curHealth)
-    {
-        healthText.text = "Health: " + Mathf.Ceil(curHealth).ToString();
     }
 
     void ChangeSprite(float sprite)

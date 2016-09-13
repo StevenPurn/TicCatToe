@@ -13,10 +13,10 @@ public class TileTap : MonoBehaviour
     {
         BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
 
-        if (ScoreManager.gameOver == false && boardManager.curPlayer != GlobalData.AiPlayer)
-        {
-            TileLocation curLocation = GetComponent<TileBehaviour>().TileLocation;
-            GameObject.Find("BoardManager").GetComponent<BoardManager>().PlaceItemIfAvailable(curLocation);
-        }
+		if (ScoreManager.gameOver == false && boardManager.curPlayer != GlobalData.AiPlayer) 
+		{
+			TileLocation curLocation = GetComponent<TileBehaviour> ().TileLocation;
+			GameObject.Find ("BoardManager").GetComponent<BoardManager> ().PlaceItemIfAvailable (curLocation);
+		}
     }
 }
