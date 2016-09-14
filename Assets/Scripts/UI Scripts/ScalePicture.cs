@@ -14,9 +14,9 @@ public class ScalePicture : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float scaleX = rectT.localScale.x;
-		scaleX += 0.02f * Time.deltaTime;
+		scaleX += 0.03f * Time.deltaTime;
 		float scaleY = rectT.localScale.y;
-		scaleY += 0.02f * Time.deltaTime;
+		scaleY += 0.03f * Time.deltaTime;
 		rectT.localScale = new Vector3 (scaleX, scaleY, 1.0f);
 	}
 }

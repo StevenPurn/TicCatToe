@@ -9,6 +9,7 @@ public class ScoreMenu : MonoBehaviour {
 	private int animSpeed;
     public GameObject singlePlayerButton;
     public GameObject vsButton;
+	public GameObject playerSelect;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +21,17 @@ public class ScoreMenu : MonoBehaviour {
 		anim.SetFloat(animName, animSpeed);
 		anim.Play(animName);
 		animSpeed = -animSpeed;
-		titleImage.SetActive(false);
-        singlePlayerButton.SetActive(false);
-        vsButton.SetActive(false);
+		if (titleImage != null) {
+			titleImage.SetActive (false);
+		}
+		if (singlePlayerButton != null) {
+			singlePlayerButton.SetActive (false);
+		}
+		if (vsButton != null) {
+			vsButton.SetActive (false);
+		}
+		if (playerSelect != null) {
+			playerSelect.SetActive (false);
+		}
 	}
 }

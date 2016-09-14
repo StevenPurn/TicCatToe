@@ -34,7 +34,7 @@ public class PinchToZoom : MonoBehaviour {
             camera.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
 
             // Make sure the orthographic size never drops below zero.
-            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 3.0f, 6.4f);
+            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 3.5f, 6.4f);
             CalcMinMax(camera);
         }else if(Input.touchCount == 1)
         {
