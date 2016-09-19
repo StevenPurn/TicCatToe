@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class GlassTileHealth : MonoBehaviour
 {
     private float curHealth;
-    public const float HEALTH_DECREMENT = -.5f;
-    public const float MAX_HEALTH = 4f;
+    public const float HEALTH_DECREMENT = -1f;
+    public const float MAX_HEALTH = 8f;
     public string animName;
     public Func<bool> isOccupied;
-    public Sprite sprite1, sprite2, sprite3, sprite4, sprite5;
-    public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4, glassSprite5 };
+    public Sprite sprite1, sprite2, sprite3, sprite4, sprite5, sprite6, sprite7, sprite8;
+	public enum GlassSprite { glassSprite1 = 1, glassSprite2, glassSprite3, glassSprite4, glassSprite5, glassSprite6, glassSprite7, glassSprite8 };
     public GlassSprite glassSprite;
     public BoardManager boardManager;
     public TileLocation tileLocation;
@@ -54,7 +54,7 @@ public class GlassTileHealth : MonoBehaviour
         }
     }
 
-    void ChangeSprite(float sprite)
+	void ChangeSprite(int sprite)
     {
         if(GetComponent<SpriteRenderer>() == null)
         {
@@ -62,27 +62,38 @@ public class GlassTileHealth : MonoBehaviour
         }
         SpriteRenderer rend = GetComponent<SpriteRenderer>();
 
-        if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite1)
+		if (sprite == (int)GlassSprite.glassSprite1)
         {
             rend.sprite = sprite1;
         }
-        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite2)
+		else if (sprite == (int)GlassSprite.glassSprite2)
         {
             rend.sprite = sprite2;
         }
-        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite3)
+		else if (sprite == (int)GlassSprite.glassSprite3)
         {
             rend.sprite = sprite3;
         }
-        else if ((int)Mathf.Ceil(sprite) == (int)GlassSprite.glassSprite4)
+		else if (sprite == (int)GlassSprite.glassSprite4)
         {
             rend.sprite = sprite4;
-        }
+		}else if (sprite == (int)GlassSprite.glassSprite5)
+		{
+			rend.sprite = sprite5;
+		}
+		else if (sprite == (int)GlassSprite.glassSprite6)
+		{
+			rend.sprite = sprite6;
+		}
+		else if (sprite == (int)GlassSprite.glassSprite7)
+		{
+			rend.sprite = sprite7;
+		}
         else
         {
             if (isOccupied())
             {
-                rend.sprite = sprite4;
+                rend.sprite = sprite8;
             }
         }
     }
