@@ -11,7 +11,7 @@ public class SpawnRandomTiles : MonoBehaviour {
     public AddTileDelegate AddTileEvent;
     public delegate void RemoveTileDelegate(TileLocation tileLocation);
     public RemoveTileDelegate RemoveTileEvent;
-    public static int maxRandomTiles = 4;
+    public static int maxRandomTiles = 3;
 
     private bool firstRandSpawn = true;
 
