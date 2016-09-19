@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using System.ComponentModel;
 using System.Threading;
 using System.Collections;
 
 public static class AIGenius
 {
-    private static int maxDepth = 1;
+    private static int maxDepth = 3;
     private static Dictionary<int, TileLocation> randomSpawnPoints;
     public static BoardManager boardManager;
     public static TileLocation? result;
@@ -62,7 +61,7 @@ public static class AIGenius
         {
             if (tile.typeOfTile == TileType.glassTile)
             {
-                tile.tileHealth -= GlassTileHealth.HEALTH_DECREMENT;
+                tile.tileHealth += GlassTileHealth.HEALTH_DECREMENT;
                 if (tile.tileHealth <= 0)
                 {
                     tile.valueOfTile = TileValue.empty;
@@ -100,11 +99,11 @@ public static class AIGenius
 
         if (gameState.scoreByPlayer[humanPlayer] >= ScoreManager.winningScore)
         {
-            bestValue = int.MaxValue;
+            bestValue = int.MaxValue - depth;
         }
         else if (gameState.scoreByPlayer[aiPlayer] >= ScoreManager.winningScore)
         {
-            bestValue = int.MinValue;
+            bestValue = int.MinValue + depth;
         }
         else if (depth >= maxDepth)
         {
@@ -126,9 +125,6 @@ public static class AIGenius
                 {
                     if (bestValue > boardValue.Value)
                     {
-//                        Debug.Log("New Best for AI");
-//                        Debug.Log(boardValue.Value);
-//                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
                     }
@@ -136,9 +132,6 @@ public static class AIGenius
                 {
                     if (bestValue < boardValue.Value)
                     {
-//                        Debug.Log("New Best for HUMAN");
-//                        Debug.Log(boardValue.Value);
-//                        Debug.Log(tileLocation.x + ", " + tileLocation.y);
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
                     }
@@ -172,14 +165,14 @@ public static class AIGenius
         int boardScore = 0;
         Player humanPlayer = GlobalData.AiPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
         TileValue aiTileValue = GlobalData.AiPlayer == Player.playerOne ? TileValue.cheese : TileValue.cat;
-        boardScore += (gameState.scoreByPlayer[GlobalData.AiPlayer.Value] - gameState.scoreByPlayer[humanPlayer]) * 1000;
+        boardScore += (gameState.scoreByPlayer[GlobalData.AiPlayer.Value] - gameState.scoreByPlayer[humanPlayer]) * -10000;
         foreach (var tile in gameState.boardTiles)
         {
             if (tile.valueOfTile != TileValue.empty)
             {
                 if (tile.typeOfTile == TileType.glassTile)
                 {
-                    boardScore += (int)((tile.valueOfTile == aiTileValue ? -10  : 10) * tile.tileHealth/6);
+                    boardScore += (int)((tile.valueOfTile == aiTileValue ? -10  : 10) * tile.tileHealth/GlassTileHealth.MAX_HEALTH);
                 }
                 else if (tile.typeOfTile == TileType.standardTile)
                 {

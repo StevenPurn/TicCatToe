@@ -24,10 +24,10 @@ public class GlassTileHealth : MonoBehaviour
         ChangeSprite(curHealth);
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         boardManager.turnEndEvent += TurnEnd;
+        tileLocation = GetComponent<TileBehaviour>().TileLocation;
+        boardManager.BoardTiles[tileLocation.x, tileLocation.y].tileHealth = curHealth;
 
         healthText = GetComponentInChildren<Text>();
-
-        tileLocation = GetComponent<TileBehaviour>().TileLocation;
     }
 
     public void TurnEnd()
