@@ -16,7 +16,7 @@ public class TileTap : MonoBehaviour
 		if (ScoreManager.gameOver == false && boardManager.curPlayer != GlobalData.AiPlayer) 
 		{
 			TileLocation curLocation = GetComponent<TileBehaviour> ().TileLocation;
-			GameObject.Find ("BoardManager").GetComponent<BoardManager> ().PlaceItemIfAvailable (curLocation);
+			GameObject.Find ("BoardManager").GetComponent<BoardManager> ().PlaceItemIfAvailable (curLocation, this.gameObject);
 		}
     }
 }

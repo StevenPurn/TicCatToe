@@ -191,16 +191,16 @@ public class BoardManager : MonoBehaviour {
         HandleAi();
     }
 
-    public void PlaceItemIfAvailable(TileLocation tilePosition)
+	public void PlaceItemIfAvailable(TileLocation tilePosition, GameObject gameObj = null)
     {
         Tile tile = BoardTiles[tilePosition.x, tilePosition.y];
         if (tile.tileOccupied == false)
         {
-            PlaceItem(tilePosition);
+            PlaceItem(tilePosition, gameObj);
         }
     }
 
-    void PlaceItem(TileLocation tileLoc)
+	void PlaceItem(TileLocation tileLoc, GameObject gameObj)
     {
         TileValue tValue;
         GameObject instantiatedItem;
@@ -220,6 +220,20 @@ public class BoardManager : MonoBehaviour {
         GetComponent<BoardManager>().SetPosition(instantiatedItem, tileLoc);
         instantiatedItem.GetComponentInChildren<TileBehaviour>().TileLocation = tileLoc;
         instantiatedItem.GetComponentInChildren<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLoc];
+
+		TileBehaviour[] tileBehaviour  = FindObjectsOfType<TileBehaviour>();
+
+		int counter = 0;
+
+		foreach (TileBehaviour tileB in tileBehaviour) {
+			counter += 1;
+			Debug.Log (counter);
+			if (tileB.TileLocation == tileLoc) {
+				Debug.Log ("matched");
+				instantiatedItem.transform.parent = tileB.gameObject.transform;
+				break;
+			}
+		}
 
         //Set value of Tile item in this slot to occupied & cat or cheese
         Tile tile = BoardTiles[tileLoc.x, tileLoc.y];

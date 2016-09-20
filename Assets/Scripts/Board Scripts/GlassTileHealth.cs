@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class GlassTileHealth : MonoBehaviour
 {
-    private float curHealth;
-    public const float HEALTH_DECREMENT = -1f;
-    public const float MAX_HEALTH = 8f;
+    private int curHealth;
+    public const int HEALTH_DECREMENT = -1;
+    public const int MAX_HEALTH = 8;
     public string animName;
     public Func<bool> isOccupied;
     public Sprite sprite1, sprite2, sprite3, sprite4, sprite5, sprite6, sprite7, sprite8;
@@ -38,7 +38,7 @@ public class GlassTileHealth : MonoBehaviour
         }
     }
 
-    public void AdjustHealth(float healthChange)
+    public void AdjustHealth(int healthChange)
     {
         curHealth += healthChange;
         boardManager.BoardTiles[tileLocation.x, tileLocation.y].tileHealth = curHealth;
@@ -65,6 +65,9 @@ public class GlassTileHealth : MonoBehaviour
 		if (sprite == (int)GlassSprite.glassSprite1)
         {
             rend.sprite = sprite1;
+			Animator anim = GetComponent<Animator>();
+			anim.enabled = true;
+			anim.Play("GlassTileShake");
         }
 		else if (sprite == (int)GlassSprite.glassSprite2)
         {
