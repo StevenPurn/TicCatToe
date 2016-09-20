@@ -115,10 +115,6 @@ public class BoardManager : MonoBehaviour {
             var health = instantiatedTile.GetComponentInChildren<GlassTileHealth>();
             health.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
-        else if (tileType == TileType.emptyTile)
-        {
-            instantiatedTile = (GameObject)Instantiate(EmptyTileObj, boardObjects.transform);
-        }
         else if (tileType == TileType.standardTile)
         {
             instantiatedTile = (GameObject)Instantiate(StandardTileObj, boardObjects.transform);
@@ -127,12 +123,15 @@ public class BoardManager : MonoBehaviour {
             spriteChange.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
 
-        SetPosition(instantiatedTile, tileLocation);
+        if (tileType != TileType.emptyTile)
+        {
+            SetPosition(instantiatedTile, tileLocation);
 
-        var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
+            var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
 
-        if (tileRemoval != null) {
-            tileRemoval.ReplaceTileEvent += AddTile;
+            if (tileRemoval != null) {
+                tileRemoval.ReplaceTileEvent += AddTile;
+            }
         }
     }
 
@@ -223,15 +222,9 @@ public class BoardManager : MonoBehaviour {
 
 		TileBehaviour[] tileBehaviour  = FindObjectsOfType<TileBehaviour>();
 
-		int counter = 0;
-
 		foreach (TileBehaviour tileB in tileBehaviour) {
-			counter += 1;
-			Debug.Log (counter);
 			if (tileB.TileLocation == tileLoc) {
-				Debug.Log ("matched");
 				instantiatedItem.transform.parent = tileB.gameObject.transform;
-				break;
 			}
 		}
 
