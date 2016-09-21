@@ -242,6 +242,7 @@ public class BoardManager : MonoBehaviour {
 		foreach (TileBehaviour tileB in tileBehaviour) {
 			if (tileB.TileLocation == tileLoc) {
 				instantiatedItem.transform.parent = tileB.gameObject.transform;
+				instantiatedItem.transform.localPosition = Vector3.zero;
 			}
 		}
 
