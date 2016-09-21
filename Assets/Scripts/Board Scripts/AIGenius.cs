@@ -16,7 +16,7 @@ public static class AIGenius
 
     public static IEnumerator CalculateMove(Tile[,] boardTiles, Player curPlayer)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0f);
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         randomSpawnPoints = GameObject.Find("BoardManager").GetComponent<BoardLocationDictionary>().RandomSpawnPoints;
 
