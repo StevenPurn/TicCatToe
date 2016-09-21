@@ -127,7 +127,7 @@ public static class AIGenius
                     {
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
-                        alpha = bestValue;
+                        beta = bestValue;
                     }
                 }
                 else
@@ -136,7 +136,7 @@ public static class AIGenius
                     {
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
-                        beta = bestValue;
+                        alpha = bestValue;
                     }
                 }
 
