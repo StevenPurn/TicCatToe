@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour {
     private static int BoardSize = 5;
     public Tile[,] BoardTiles = new Tile[BoardSize,BoardSize];
     public GameObject EmptyTileObj, StandardTileObj, GlassTileObj;
     public Player curPlayer { get; private set; }
+	public Text aiText;
 
     public delegate void WinCheckDelegate();
     public WinCheckDelegate WinCheckEvent;
@@ -44,6 +46,7 @@ public class BoardManager : MonoBehaviour {
         GlassTileObj = (GameObject)Resources.Load("Prefabs/GlassTile");
         EmptyTileObj = (GameObject)Resources.Load("Prefabs/EmptyTile");
         sfxScript = GameObject.Find("SFXController").GetComponent<SFXScript>();
+		aiText = GameObject.Find ("AIThinking").GetComponent<Text> ();
 
         CreateBoard();
         FindObjectOfType<SpawnRandomTiles>().AddTileEvent += AddTile;
@@ -115,6 +118,10 @@ public class BoardManager : MonoBehaviour {
             var health = instantiatedTile.GetComponentInChildren<GlassTileHealth>();
             health.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
+        else if (tileType == TileType.emptyTile)
+        {
+            instantiatedTile = (GameObject)Instantiate(EmptyTileObj, boardObjects.transform);
+        }
         else if (tileType == TileType.standardTile)
         {
             instantiatedTile = (GameObject)Instantiate(StandardTileObj, boardObjects.transform);
@@ -123,15 +130,12 @@ public class BoardManager : MonoBehaviour {
             spriteChange.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
         }
 
-        if (tileType != TileType.emptyTile)
-        {
-            SetPosition(instantiatedTile, tileLocation);
+        SetPosition(instantiatedTile, tileLocation);
 
-            var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
+        var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
 
-            if (tileRemoval != null) {
-                tileRemoval.ReplaceTileEvent += AddTile;
-            }
+        if (tileRemoval != null) {
+            tileRemoval.ReplaceTileEvent += AddTile;
         }
     }
 
@@ -162,6 +166,14 @@ public class BoardManager : MonoBehaviour {
         Tile tile = BoardTiles[tileLocation.x, tileLocation.y];
         tile.typeOfTile = TileType.emptyTile;
         tile.valueOfTile = TileValue.empty;
+		TileBehaviour[] tileBehaviour  = FindObjectsOfType<TileBehaviour>();
+
+		foreach (TileBehaviour tileB in tileBehaviour) {
+			if (tileB.TileLocation == tileLocation) {
+				Destroy(tileB.gameObject);
+			}
+		}
+
     }
 
     void ChangePlayer()
@@ -173,11 +185,14 @@ public class BoardManager : MonoBehaviour {
 
     private void HandleAi()
     {
+		aiText.gameObject.SetActive (false);	
         if (curPlayer == GlobalData.AiPlayer && !ScoreManager.gameOver)
         {
             // Given the current board state and the current player, what's a move?
+			aiText.gameObject.SetActive(true);
             StartCoroutine(AIGenius.CalculateMove(BoardTiles, curPlayer));
             // Place an item on that tile.
+
         }
     }
 
@@ -221,6 +236,8 @@ public class BoardManager : MonoBehaviour {
         instantiatedItem.GetComponentInChildren<SpriteRenderer>().sortingLayerName = GetComponent<BoardLocationDictionary>().SortLayer[tileLoc];
 
 		TileBehaviour[] tileBehaviour  = FindObjectsOfType<TileBehaviour>();
+
+		int counter = 0;
 
 		foreach (TileBehaviour tileB in tileBehaviour) {
 			if (tileB.TileLocation == tileLoc) {
