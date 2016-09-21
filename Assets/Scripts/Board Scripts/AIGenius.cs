@@ -90,7 +90,7 @@ public static class AIGenius
         return newGameState;
     }
 
-    private static ScoredMove GetScoredMove(GameState gameState, int depth = 0)
+    private static ScoredMove GetScoredMove(GameState gameState, int alpha = int.MinValue, int beta = int.MaxValue, int depth = 0)
     {
         Player humanPlayer = GlobalData.AiPlayer == Player.playerOne ? Player.playerTwo : Player.playerOne;
         Player aiPlayer = (Player)GlobalData.AiPlayer;
@@ -119,22 +119,29 @@ public static class AIGenius
                     bestLocation = tileLocation;
                 }
                 GameState nextGameState = GetGameState(gameState, tileLocation);
-                boardValue = GetScoredMove(nextGameState, depth + 1).value;
+                boardValue = GetScoredMove(nextGameState, alpha, beta, depth + 1).value;
  
-                if(gameState.curPlayer == GlobalData.AiPlayer)
+                if (gameState.curPlayer == GlobalData.AiPlayer)
                 {
                     if (bestValue > boardValue.Value)
                     {
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
+                        alpha = bestValue;
                     }
-                }else
+                }
+                else
                 {
                     if (bestValue < boardValue.Value)
                     {
                         bestValue = boardValue.Value;
                         bestLocation = tileLocation;
+                        beta = bestValue;
                     }
+                }
+
+                if (beta <= alpha) {
+                    break;
                 }
             }
         }
