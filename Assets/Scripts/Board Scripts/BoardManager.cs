@@ -117,6 +117,7 @@ public class BoardManager : MonoBehaviour {
             SetSprite(instantiatedTile, tileLocation);
             var health = instantiatedTile.GetComponentInChildren<GlassTileHealth>();
             health.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
+			SetPosition(instantiatedTile, tileLocation);
         }
         else if (tileType == TileType.emptyTile)
         {
@@ -128,9 +129,10 @@ public class BoardManager : MonoBehaviour {
             SetSprite(instantiatedTile, tileLocation);
             var spriteChange = instantiatedTile.GetComponentInChildren<StandardTileSpriteChange>();
             spriteChange.isOccupied = () => BoardTiles[tileLocation.x, tileLocation.y].tileOccupied;
+			SetPosition(instantiatedTile, tileLocation);
         }
 
-        SetPosition(instantiatedTile, tileLocation);
+        //SetPosition(instantiatedTile, tileLocation);
 
         var tileRemoval =  instantiatedTile.GetComponentInChildren<ListenForTileRemoval>();
 
