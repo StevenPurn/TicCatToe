@@ -76,14 +76,18 @@ public class ScoreManager : MonoBehaviour
         if (ScoreByPlayer[player] >= winningScore)
         {
             gameOver = true;
-            winPanel.gameObject.SetActive(true);
+            StaticCoroutine.DoCoroutine(WaitForWin());
             winBackdrop.GetComponent<Image>().sprite = player == Player.playerOne
                 ? cheeseWinImage
                 : catWinImage;
             winPanel.GetComponentInChildren<Text>().text = player == Player.playerOne
                 ? "Dogs win!"
                 : "Cats win!";
-            if(GlobalData.AiPlayer == player)
+            GameObject fireworks = player == Player.playerOne
+                ? (GameObject)Resources.Load("Prefabs/Fireworks_Spawn_Dogs_GO")
+                : (GameObject)Resources.Load("Prefabs/Fireworks_Spawn_Cats_GO");
+            Instantiate(fireworks);
+            if (GlobalData.AiPlayer == player)
             {
                 GameObject.Find("SFXController").GetComponent<SFXScript>().PlaySFX(SFXScript.AudioClipEnum.lose);
             }else
@@ -92,6 +96,12 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
+    }
+
+    static IEnumerator WaitForWin()
+    {
+        yield return new WaitForSeconds(1.5f);
+        winPanel.gameObject.SetActive(true);
     }
 
     public void SetWinningScore(int newWinningScore)
