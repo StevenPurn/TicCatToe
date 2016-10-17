@@ -13,14 +13,18 @@ public class ScoreMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		anim = GetComponent<Animator>();
+		if (GetComponent<Animator> () != null) {
+			anim = GetComponent<Animator> ();
+		}
 		animSpeed = 1;
 	}
 
 	public void PlayAnimation(){
-		anim.SetFloat(animName, animSpeed);
-		anim.Play(animName);
-		animSpeed = -animSpeed;
+		if (animName != "") {
+			anim.SetFloat (animName, animSpeed);
+			anim.Play (animName);
+			animSpeed = -animSpeed;
+		}
 		if (titleImage != null) {
 			titleImage.SetActive (false);
 		}
