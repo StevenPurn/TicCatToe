@@ -6,7 +6,7 @@ public class RateUs : MonoBehaviour {
 		if (Application.platform == RuntimePlatform.IPhonePlayer){
 			Application.OpenURL ("http://itunes.apple.com/app/tic-cat-toe/id1146712155?ls=1&mt=8");
 		}else if(Application.platform == RuntimePlatform.Android){
-			Application.OpenURL("https://play.google.com/store/apps/details?id=com.GamesGames.TicCatToe");
+			Application.OpenURL("market://details?id=packageName/com.GamesGames.TicCatToe");
 		}
 	}
 }
