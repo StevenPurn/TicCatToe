@@ -20,12 +20,10 @@ public class AnimateAfterTime : MonoBehaviour {
         animationTimerActual -= Time.deltaTime;
         if(animationTimerActual <= 0)
         {
-			Debug.Log ("Resetting timer & checking whether to blink");
             animationTimerActual = animationTimer;
-            if(Random.Range(1,11) > 3)
+            if(Random.Range(1,11) > 7)
             {
-				Debug.Log ("Should be blinking");
-                anim.Play(animationName);
+                anim.Play(animationName, -1, 0f);
             }
         }
 	}

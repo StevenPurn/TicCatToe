@@ -68,7 +68,7 @@ public class ListenForItemRemoval : MonoBehaviour {
 	{
 		anim.Play (animName);
 		yield return new WaitForSeconds (anim.GetCurrentAnimatorStateInfo (0).length);
-		anim.Stop ();
+		anim.enabled = false;
 		if (destroyObj) 
 		{
 			Destroy (transform.parent.gameObject);

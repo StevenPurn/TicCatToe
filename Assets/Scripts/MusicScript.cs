@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MusicScript : MonoBehaviour {
 
-    public static bool playMusic = true;
+    public static bool playMusic = false;
 
     private AudioSource audioSource;
 
