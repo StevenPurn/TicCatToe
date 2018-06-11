@@ -1,13 +1,13 @@
 # TicCatToe
-
+![icon_512](https://user-images.githubusercontent.com/8118591/41260325-dd178f70-6d8b-11e8-899c-d4af42a00515.png)
 ## Description
 
-Play Tic Tac Toe but with a cumulative score and tiles that reset after a few turns
+Classic Tic Tac Toe gameplay with some additional twists to keep things interesting!
 
-## TODO
+![tct](https://user-images.githubusercontent.com/8118591/41260304-c5964f6c-6d8b-11e8-8214-5061a1409787.PNG)
 
-- [ ] Fix sorting layer of cat/cheese items as placed
-- [ ] Add functioning UI
-- [ ] Juice it up
-- [ ] Detect moves that score
-- [ ] Implement AI
+- Extra tiles spawn outside the game board to give you more options
+
+- Occupied glass tiles weaken over time and eventually break
+
+- Play with your friends or against AI
